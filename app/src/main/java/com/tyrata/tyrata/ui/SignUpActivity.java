@@ -1,4 +1,4 @@
-package com.tyrata.tyrata.ui.input;
+package com.tyrata.tyrata.ui;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -16,9 +16,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.tyrata.tyrata.ui.MainActivity;
 import com.tyrata.tyrata.R;
-import com.tyrata.tyrata.data.model.User;
 
 import java.io.FileNotFoundException;
 

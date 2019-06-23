@@ -1,0 +1,41 @@
+package com.tyrata.tyrata.data;
+
+public class Commands {
+    public static final String SET_PEAKS = "PEAKS=";
+    public static final String REQUEST_PEAKS = "PEAKS?";
+    public static final String SET_FREQSTART = "FREQSTART=";
+    public static final String REQUEST_FREQSTART = "FREQSTART?";
+    public static final String SET_FREQEND = "FREQEND=";
+    public static final String REQUEST_FREQEND = "FREQEND?";
+    public static final String SET_FREQ1INC = "FREQ1INC=";
+    public static final String REQUEST_FREQ1INC = "FREQ1INC?";
+    public static final String SET_FREQ2INC = "FREQ2INC=";
+    public static final String REQUEST_FREQ2INC = "FREQ2INC?";
+    public static final String SET_FREQ3INC = "FREQ3INC=";
+    public static final String REQUEST_FREQ3INC = "FREQ3INC?";
+    public static final String SET_FREQ4INC = "FREQ4INC=";
+    public static final String REQUEST_FREQ4INC = "FREQ4INC?";
+    public static final String SET_FREQ2OFFSET = "FREQ2OFFSET=";
+    public static final String REQUEST_FREQ2OFFSET = "FREQ2OFFSET?";
+    public static final String SET_FREQ3OFFSET= "FREQ3OFFSET=";
+    public static final String REQUEST_FREQ3OFFSET = "FREQ3OFFSET?";
+    public static final String SET_FREQ4OFFSET = "FREQ3OFFSET=";
+    public static final String REQUEST_FREQ4OFFSET = "FREQ3OFFSET?";
+    public static final String REQUEST_VOLTAGE = "BATTERY";
+    public static final String SET_BLETIMEOUT = "BLETIMEOUT=";
+    public static final String REQUEST_BLETIMOUT = "BLETIMEOUT?";
+    public static final String SET_FACTORY = "FACTORY";
+    public static final String SET_SENSOR = "SENSOR=";
+    public static final String REQUEST_SENSOR = "SENSOR?";
+    public static final String SCAN = "SCAN";
+    public static final String SLEEP_ON = "SLEEPON";
+    public static final String SLEEP_OFF = "SLEEPOFF";
+    public static final String ZEROIZE = "AD7747ZEROIZE";
+    public static final String AD7747_REG = "AD7747REG";
+    public static final String REQUEST = "?";
+    public static final String SET = "=";
+    public static final String TEMP = "TEMP";
+    public static final String HZ = "HZ";
+    public static final String SET_ID = "ID=";
+    public static final String REQUEST_ID = "ID?";
+}

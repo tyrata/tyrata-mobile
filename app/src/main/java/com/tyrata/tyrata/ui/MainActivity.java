@@ -22,7 +22,6 @@ import android.widget.EditText;
 //import com.google.firebase.database.ValueEventListener;
 import com.tyrata.tyrata.R;
 import com.tyrata.tyrata.data.Constants;
-import com.tyrata.tyrata.ui.v2.SensorDataActivity;
 
 import static com.tyrata.tyrata.util.CommonUtil.REQUEST_ENABLE_BT;
 

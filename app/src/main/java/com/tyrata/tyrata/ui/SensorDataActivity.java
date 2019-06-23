@@ -1,4 +1,4 @@
-package com.tyrata.tyrata.ui.v2;
+package com.tyrata.tyrata.ui;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -11,7 +11,6 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -42,7 +41,6 @@ import android.widget.Toolbar;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
@@ -55,10 +53,12 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 import com.tyrata.tyrata.R;
 import com.tyrata.tyrata.data.Constants;
 import com.tyrata.tyrata.data.model.Graph;
-import com.tyrata.tyrata.data.remote.v2.BleAdapterService;
-import com.tyrata.tyrata.data.remote.v2.BleScanner;
-import com.tyrata.tyrata.data.remote.v2.ScanResultsConsumer;
-import com.tyrata.tyrata.ui.ListSensorActivity;
+import com.tyrata.tyrata.data.remote.BleAdapterService;
+import com.tyrata.tyrata.data.remote.BleScanner;
+import com.tyrata.tyrata.data.remote.ScanResultsConsumer;
+import com.tyrata.tyrata.ui.services.ToasterService;
+import com.tyrata.tyrata.ui.settings.AD7747SettingsActivity;
+import com.tyrata.tyrata.ui.settings.FrequencySettingsActivity;
 import com.tyrata.tyrata.util.CommonUtil;
 
 import java.io.File;
@@ -68,28 +68,77 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.tyrata.tyrata.data.Constants.AD7747_DB;
+import static com.tyrata.tyrata.data.Constants.AD7747_ID;
+import static com.tyrata.tyrata.data.Constants.AD7747_MAP_KEY;
+import static com.tyrata.tyrata.data.Constants.CANCEL;
+import static com.tyrata.tyrata.data.Constants.DATE_MAP_KEY;
+import static com.tyrata.tyrata.data.Constants.NO;
+import static com.tyrata.tyrata.data.Constants.OK;
+import static com.tyrata.tyrata.data.Constants.READINGS_DB;
+import static com.tyrata.tyrata.data.Constants.RF_DB;
+import static com.tyrata.tyrata.data.Constants.RF_ID;
+import static com.tyrata.tyrata.data.Constants.RF_MAP_KEY;
+import static com.tyrata.tyrata.data.Constants.SENSOR_BASE;
+import static com.tyrata.tyrata.data.Constants.SENSOR_DB;
+import static com.tyrata.tyrata.data.Constants.SENSOR_ID_DB;
+import static com.tyrata.tyrata.data.Constants.SENSOR_MAC_DB;
+import static com.tyrata.tyrata.data.Constants.SENSOR_NAME_DB;
+import static com.tyrata.tyrata.data.Constants.SET;
+import static com.tyrata.tyrata.data.Constants.TEMP_MAP_KEY;
+import static com.tyrata.tyrata.data.Constants.TIME_MAP_KEY;
+import static com.tyrata.tyrata.data.Constants.VOLTAGE_MAP_KEY;
+import static com.tyrata.tyrata.data.Constants.YES;
 import static java.lang.Math.PI;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class SensorDataActivity extends Activity implements ScanResultsConsumer {
 
-        private final static String TAG = "Sensor Info";
-    //private static final String CAPACITANCE_LABEL= "Capacitance (pF)";
-    private static final String CAPACITANCE_LABEL= "Measurement";
+    private final static String TAG = "Sensor Info";
+    private static final String CAPACITANCE_LABEL= "Capacitance (pF)";
+    // private static final String CAPACITANCE_LABEL= "Measurement";
     private static final String FREQUENCY_LABEL= "Frequency (Hz)";
     private static final String CAPACITANCE_DATA_LABEL = "COLLECT CAPACITANCE DATA";
     private static final String FREQUENCY_DATA_LABEL = "COLLECT FREQUENCY DATA";
+    private static final String CONNECTED = "CONNECTED";
+    private static final String NOT_CONNECTED = "NOT CONNECTED";
+    private static final String READINGS = "Readings";
+    private static final String TIME = "Time";
+    private static final String CAP_TAG = "pF";
+    private static final String TIME_TAG = "Time";
+    private static final String TEMP_TAG = "C";
+    private static final String VOLTAGE_TAG = "V";
+
+    private static final String EDIT_NAME_TITLE = "Change Name of Sensor";
+    private static final String EDIT_NAME_BODY = "Choose what to append to Tyrata_";
+    private static final String EDIT_NAME_TITLE2 = "Reminder";
+    private static final String EDIT_NAME_BODY2 = "Change will take effect after BLE is power cycled.";
+
+    private static final String REQ_LOC_TITLE = "Permission Required";
+    private static final String REQ_LOC_BODY = "Please grant Location access so this application can perform Bluetooth scanning";
+
+    private static final String RESET_TITLE = "Are you sure?";
+    private static final String RESET_BODY = "This will reset sensor to FACTORY settings.";
+    private static final String RESET_TOAST = "Resetting Sensor";
+
+    private static final String CLEAR_TITLE =  "Are you sure?";
+    private static final String CLEAR_BODY = "This will clear all of the data collected.";
+    private static final String CLEAR_TITLE2 = "Actually??";
+
+    private static final String ON_CLICK_OPT = "Take reading on button-click";
+    private static final String ONE_SECOND_OPT = "Take reading every 1s";
+    private static final String TEN_SECOND_OPT = "Take reading every 10s";
+    private static final String THIRTY_SECOND_OPT = "Take reading every 30s";
+    private static final String SIXTY_SECOND_OPT = "Take reading every 60s";
+
     private static final int REQUEST_LOCATION = 0;
         //  private BluetoothLeService mBluetoothLeService
     private Graph mGraph;
-    private boolean ble_scanning = false;
-    private Toast toast;
     private static final long SCAN_TIMEOUT = 5000;
     private boolean permissions_granted = false;
     private BleScanner ble_scanner;
@@ -97,7 +146,6 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
         private Handler mHandler;
     private String device_name;
     private String device_address;
-    private byte[] device_data;
     private boolean back_requested = false;
     private HashMap<String, String> lastReading;
     public static BleAdapterService bluetooth_le_adapter;
@@ -125,7 +173,7 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
             bluetooth_le_adapter = ((BleAdapterService.LocalBinder) service).getService();
             bluetooth_le_adapter.setActivityHandler(message_handler);
             bluetooth_le_adapter.connect(device_address);
-            onConnected();
+            checkSensor();
         }
 
         @Override
@@ -148,224 +196,38 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
                     showMsg(text);
                     break;
                 case BleAdapterService.GATT_CONNECTED:
-// we're connected
-                    bluetooth_le_adapter.discoverServices();
-                    showMsg("CONNECTED");
-                    ((Button) SensorDataActivity.this.findViewById(R.id.req_btn)).setEnabled(true);
-                    ((TextView) findViewById(R.id.is_connected)).setText("CONNECTED");
-                    View editName = findViewById(R.id.ic_settings);
-                    editName.setEnabled(true);
-                    findViewById(R.id.more_settings).setEnabled(true);
-                    try {
-                        Thread.sleep(500);
-                        bluetooth_le_adapter.sendMessage("SENSOR=" + (isAD7747
-                                ? "0" : "1"));
-                        Thread.sleep(500);
-                        bluetooth_le_adapter.sendMessage("SENSOR?");
-                        Thread.sleep(1000);
-                        if(isAfterReading) {
-                            bluetooth_le_adapter.sendMessage("HZ");
-                            showMsg("Just sent HZ");
-                        }
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                    onConnected();
                     break;
                 case BleAdapterService.GATT_DISCONNECT:
-// we're disconnected
-                    showMsg("DISCONNECTED");
-                    if (back_requested) {
-                        SensorDataActivity.this.finish();
-                    }
+                    onDisconnected();
                     break;
                 case BleAdapterService.GATT_SERVICES_DISCOVERED:
-// validate services and if ok....
-                    List<BluetoothGattService> slist = bluetooth_le_adapter.getSupportedGattServices();
-                    boolean uart_present = false;
-
-                    for (BluetoothGattService svc : slist) {
-                        Log.d(Constants.TAG, "UUID=" + svc.getUuid().toString().toUpperCase() + " INSTANCE=" + svc.getInstanceId());
-                        if(svc.getUuid().toString().equalsIgnoreCase(BleAdapterService.NORDIC_UART_UUID)) {
-                            uart_present = true;
-                            continue;
-                        }
-                    }
-                    if(uart_present) {
-                        showMsg("UART Baby");
-                        bluetooth_le_adapter.readCharacteristic(
-                                BleAdapterService.LINK_LOSS_SERVICE_UUID,
-                                BleAdapterService.RX_UUID);
-                    } else {
-                        showMsg("Device does not have expected GATT services");
-                    }
+                    onServiceDiscovered();
                     break;
 
                 case BleAdapterService.GATT_CHARACTERISTIC_READ:
-                    bundle = msg.getData();
-                    Log.d(Constants.TAG, "Service=" + bundle.get(BleAdapterService.PARCEL_SERVICE_UUID).toString().toUpperCase() + " Characteristic=" + bundle.get(BleAdapterService.PARCEL_CHARACTERISTIC_UUID).toString().toUpperCase());
-                    if (bundle.get(BleAdapterService.PARCEL_CHARACTERISTIC_UUID).toString()
-                            .toUpperCase().equals(BleAdapterService.RX_UUID)
-                            && bundle.get(BleAdapterService.PARCEL_SERVICE_UUID).toString()
-                            .toUpperCase().equals(BleAdapterService.NORDIC_UART_UUID)) {
-                        b = bundle.getByteArray(BleAdapterService.PARCEL_VALUE);
-                        if (b.length > 0) {
-
-                        }
-                    }
+                    onReadChar(msg);
                     break;
 
                 case BleAdapterService.GATT_CHARACTERISTIC_WRITTEN:
-                    bundle = msg.getData();
-                    if (bundle.get(BleAdapterService.PARCEL_CHARACTERISTIC_UUID).toString()
-                            .toUpperCase().equals(BleAdapterService.TX_UUID)
-                            && bundle.get(BleAdapterService.PARCEL_SERVICE_UUID).toString()
-                            .toUpperCase().equals(BleAdapterService.NORDIC_UART_UUID)) {
-                        b = bundle.getByteArray(BleAdapterService.PARCEL_VALUE);
-                        if (b.length > 0) {
-                            showMsg(Arrays.toString(b));
-                        }
-                    }
+                    onWriteChar(msg);
                     break;
                 case BleAdapterService.NOTIFICATION_OR_INDICATION_RECEIVED:
-                    bundle = msg.getData();
-                    b = bundle.getByteArray(BleAdapterService.PARCEL_VALUE);
-                    System.out.println("SEND ME THIS LINE MICHAEL (Response): " + new String(b));
-                    getDataFromReading(b);
-                    handleIncoming(new String(b));
-                    Log.d(Constants.TAG, Arrays.toString(b));
+                    onNotificationRecd(msg);
+                    break;
             }
         }
     };
-
-    private void getDataFromReading(byte[] b) {
-        String s = new String(b);
-        reading = reading + s;
-        if(!validateReading() || !isAD7747){
-            return;
-        }
-        int index = reading.indexOf("<");
-        reading = reading.substring(index);
-        System.out.println("This should be the entire reading: " + reading);
-        String d = getScan("pF");
-        // String d = getScan("pF");
-        String time = getScan("Time");
-        String t = getScan("C");
-        String v = getScan("V");
-        this.lastReading = new HashMap<>();
-        lastReading.put(isAD7747 ? "Capacitance" : "Frequency" , d);
-        lastReading.put("Time", time);
-        lastReading.put("Temperature", t);
-        lastReading.put("Voltage", v);
-        addLastReadingToTable();
-        reading = "";
-    }
-
-    private void addLastReadingToTable() {
-        if(lastReading == null) {
-            showMsg("Somewhere along the way you tried adding to the table when you shouldn't have, can't add anything");
-            return;
-        }
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        Date date = new Date();
-        lastReading.put("Date", dateFormat.format(date));
-        active_sensor.getReference().update("readings", FieldValue.arrayUnion(lastReading));
-        readings_list_adapter.addMeasurement(lastReading);
-        readings_list_adapter.notifyDataSetChanged();
-        showGraph();
-    }
-
-    private boolean validateReading() {
-        return reading.contains("</V>");
-    }
-
-    private String getScan(String s) {
-        String[] sArr = reading.split("<"+ s + ">");
-        String dataStr = sArr[1];
-        String[] dataArr = dataStr.split("<");
-        String data = dataArr[0];
-        if(data.contains("AD7747")) {
-            data = "Out of Range";
-        }
-        System.out.println("MICHAEL: " + s + " is what you're getting.... Value is " + data);
-        return data;
-    }
 
     @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_sensor_data);
-            isAD7747 = sensor_mode.equalsIgnoreCase(Constants.AD7747_MODE);
-        coll = isAD7747 ? "ad7747" : "rf";
-        setActionBar(new Toolbar(getApplicationContext()));
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setDisplayShowHomeEnabled(true);
-        //mGraph.addSecondaryAxis("Temperature (C)");
-        View editName = findViewById(R.id.ic_settings);
-        editName.setEnabled(false);
-        findViewById(R.id.more_settings).setEnabled(false);
-        ((TextView) findViewById(R.id.is_connected)).setText("NOT CONNECTED");
-//
-//        TextView x_label = findViewById(R.id.x_label);
-//        x_label.setText("Readings");
-//        TextView y_label = findViewById(R.id.y_label);
-//        y_label.setText((sensor_mode.equals(Constants.AD7747_MODE)  ? "Capacitance (pF)" : "Frequency (Hz)"));
-        GraphView graphView = findViewById(R.id.graph_beta);
-        mGraph = new Graph(graphView, "Readings",(isAD7747  ? "Capacitance (pF)" : "Frequency (Hz)"), "");
 
-        // Change units if clicked on X or Y axes (labels)
-//        x_label.setOnClickListener(view -> {
-//            mGraph.removeAllSeries();
-//            if(isReadings) {
-//                x_label.setText("Time");
-//            } else {
-//                x_label.setText("Readings");
-//            }
-//            isReadings = !isReadings;
-//            showGraph();
-//        });
-/**
- * Set of buttons in second row.
- */
-        // Read Register
-        Button settingsBtn = findViewById(R.id.more_settings);
-        settingsBtn.setOnClickListener(view -> settingsListener());
-        readings_list_adapter = new SensorDataActivity.ListAdapter();
-        ListView listView = (ListView) this.findViewById(R.id.other_info);
-        listView.setAdapter(readings_list_adapter);
-        isReadings = true;
-            ble_scanner = new BleScanner(this.getApplicationContext());
-            mHandler = new Handler();
-            createIntervalSpinner();
-            createAxisSpinner();
-// read intent data
-            final Intent intent = getIntent();
-            device_name = intent.getStringExtra(Constants.SENSOR_NAME);
-            device_address = intent.getStringExtra(Constants.SENSOR_MAC);
-            device_data = intent.getByteArrayExtra(Constants.SENSOR_DATA);
-// show the device name
-            ((TextView) this.findViewById(R.id.device_address)).setText(device_address);
-            ((TextView) this.findViewById(R.id.device_name)).setText(device_name);
-// connect to the Bluetooth adapter service
-            Intent gattServiceIntent = new Intent(this, BleAdapterService.class);
-            bindService(gattServiceIntent, service_connection, BIND_AUTO_CREATE);
+            initialize();
 
-            Button clr_btn = findViewById(R.id.clear_data);
-            clr_btn.setOnClickListener(view -> clearData());
-        // Redraw graph
-        ImageView resetGraphBtn = findViewById(R.id.reset_graph);
-        resetGraphBtn.setOnClickListener(view -> showGraph());
-
-        Button share_btn = findViewById(R.id.share_btn);
-        share_btn.setOnClickListener(view -> onExportData());
-
-        Button reset_btn = findViewById(R.id.reset_sensor);
-        reset_btn.setOnClickListener(view -> resetSensor());
-
-        TextView freqTxt = findViewById(R.id.freq_text);
-        freqTxt.setText(isAD7747 ? "" : FREQUENCY_LABEL);
-        TextView dataTxt = findViewById(R.id.collected_data_text);
-        dataTxt.setText(isAD7747 ? CAPACITANCE_DATA_LABEL : FREQUENCY_DATA_LABEL);
     }
+
 
     @Override
     protected void onResume() {
@@ -376,23 +238,23 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
     private void clearData() {
         // Show alert box that asks to confirm deletion
         AlertDialog.Builder alert = new AlertDialog.Builder(SensorDataActivity.this);
-        alert.setTitle("Are you sure?");
-        alert.setMessage("This will clear all of the data collected.");
-        alert.setPositiveButton("YES", (dialog, whichButton) -> {
+        alert.setTitle(CLEAR_TITLE);
+        alert.setMessage(CLEAR_BODY);
+        alert.setPositiveButton(YES, (dialog, whichButton) -> {
             AlertDialog.Builder alert2 = new AlertDialog.Builder(SensorDataActivity.this);
-            alert2.setTitle("Actually??");
-            alert2.setPositiveButton("YES!", (dialog2, whichButton2) ->  {
+            alert2.setTitle(CLEAR_TITLE2);
+            alert2.setPositiveButton(YES, (dialog2, whichButton2) ->  {
                 this.readings_list_adapter.clear();
-                active_sensor.getReference().update("readings", new ArrayList<HashMap<String, String>>());
+                active_sensor.getReference().update(READINGS_DB, new ArrayList<HashMap<String, String>>());
                 readings_list_adapter.notifyDataSetChanged();
                 showGraph();
             });
-            alert2.setNegativeButton("CANCEL", (dialog2, whichButton2) -> {
+            alert2.setNegativeButton(CANCEL, (dialog2, whichButton2) -> {
 
             });
             alert2.show();
         });
-        alert.setNegativeButton("NO", (dialog, whichButton) -> {
+        alert.setNegativeButton(NO, (dialog, whichButton) -> {
         });
         alert.show();
     }
@@ -433,11 +295,11 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
         private void createIntervalSpinner() {
             Spinner spinner = findViewById(R.id.epoch_selector);
             ArrayList<String> options = new ArrayList<>();
-            options.add("Take reading on button-click");
-            options.add("Take reading every 1s");
-            options.add("Take reading every 10s");
-            options.add("Take reading every 30s");
-            options.add("Take reading every 60s");
+            options.add(ON_CLICK_OPT);
+            options.add(ONE_SECOND_OPT);
+            options.add(TEN_SECOND_OPT);
+            options.add(THIRTY_SECOND_OPT);
+            options.add(SIXTY_SECOND_OPT);
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                     android.R.layout.simple_spinner_dropdown_item,
                     options);
@@ -492,8 +354,8 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
     private void createAxisSpinner() {
         Spinner spinner = findViewById(R.id.x_axis_selector);
         ArrayList<String> options = new ArrayList<>();
-        options.add("Readings");
-        options.add("Time");
+        options.add(READINGS);
+        options.add(TIME);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_dropdown_item,
                 options);
@@ -542,18 +404,12 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
             });
         }
 
-//        public void getReading() {
-//            this.setScanState(true);
-//            System.out.println(Arrays.toString(device_data));
-//            this.setScanState(false);
-//        }
-
     public void getReading() {
         this.scan();
     }
 
         private void scan(){
-            bluetooth_le_adapter.sendMessage("SCAN");
+            bluetooth_le_adapter.scan();
         if(!isAD7747) {
             try {
                 isAfterReading = true;
@@ -571,7 +427,7 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
          */
         private void showGraph() {
             mGraph.removeAllSeries();
-            mGraph.setXAxisTitle(isReadings ? "Readings" : "Time");
+            mGraph.setXAxisTitle(isReadings ? READINGS : TIME);
             int dataCount = readings_list_adapter.getCount();
             // Convert lists to data-points
             DataPoint[] primaryPoints = new DataPoint[dataCount];
@@ -580,8 +436,8 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
             double maxX = 0;
             double minX = 0;
             try {
-                maxX = (isReadings || readings_list_adapter.getCount() <=0 ) ? dataCount : new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").parse(readings_list_adapter.getItem(0).get("Date")).getTime();
-                minX = (isReadings || readings_list_adapter.getCount() <=0 ) ? 0 : new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").parse(readings_list_adapter.getItem(maxArr).get("Date")).getTime();
+                maxX = (isReadings || readings_list_adapter.getCount() <=0 ) ? dataCount : new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").parse(readings_list_adapter.getItem(0).get(DATE_MAP_KEY)).getTime();
+                minX = (isReadings || readings_list_adapter.getCount() <=0 ) ? 0 : new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").parse(readings_list_adapter.getItem(maxArr).get(DATE_MAP_KEY)).getTime();
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -592,7 +448,7 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
 
             for (int i = 0; i < dataCount; i++) {
                 int newDataPos = maxArr - i;
-                String val = (isAD7747 ? readings_list_adapter.getItem(i).get("Capacitance") : readings_list_adapter.getItem(i).get("Frequency"));
+                String val = (isAD7747 ? readings_list_adapter.getItem(i).get(AD7747_MAP_KEY) : readings_list_adapter.getItem(i).get(RF_MAP_KEY));
                 double measValue = Double.parseDouble( val == "Out of Range" ? "0.0" : val);
                 // double tempValue = Double.parseDouble(readings_list_adapter.getItem(i).get("Temperature"));
                 if(isReadings) {
@@ -601,7 +457,7 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
                 } else {
                     Long date = null;
                     try {
-                        date = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").parse(readings_list_adapter.getItem(i).get("Date")).getTime();
+                        date = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss").parse(readings_list_adapter.getItem(i).get(DATE_MAP_KEY)).getTime();
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -636,11 +492,11 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
             //secondarySeries.setColor(Color.RED); // Different colored line to distinguish
 
             // Show Toast(popup message) about the data-point touched
+
             primarySeries.setOnDataPointTapListener((series1, dataPoint) ->
-                    Toast.makeText(
-                            SensorDataActivity.this,
+                    ToasterService.makeToast(SensorDataActivity.this,
                             dataPoint.toString(),
-                            Toast.LENGTH_SHORT).show());
+                            Toast.LENGTH_SHORT));
 
             // Graph view display will have these boundaries
             mGraph.setGraphViewBounds((int) minX, (int) maxX, (int) minYP, (int) maxYP);
@@ -662,19 +518,20 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
         private void resetSensor() {
             // Show alert box that asks to confirm deletion
             AlertDialog.Builder alert = new AlertDialog.Builder(SensorDataActivity.this);
-            alert.setTitle("Are you sure?");
-            alert.setMessage("This will reset sensor to FACTORY settings.");
-            alert.setPositiveButton("YES", (dialog, whichButton) -> {
-                bluetooth_le_adapter.sendMessage("FACTORY");
-                Toast.makeText(SensorDataActivity.this,
-                        "Resetting sensor to FACTORY settings...", Toast.LENGTH_SHORT).show();
+            alert.setTitle(RESET_TITLE);
+            alert.setMessage(RESET_BODY);
+            alert.setPositiveButton(YES, (dialog, whichButton) -> {
+                bluetooth_le_adapter.factory();
+                ToasterService.makeToast(SensorDataActivity.this,
+                        RESET_TOAST, Toast.LENGTH_SHORT);
                 Log.d("", "Sensor being reset with UART");
             });
-            alert.setNegativeButton("NO", (dialog, whichButton) -> {
+            alert.setNegativeButton(NO, (dialog, whichButton) -> {
             });
             alert.show();
         }
 
+        // TODO: Make into CSV Service
         /**
          * Creates a CSV file with fields Timestamp, Reading and Difference
          * @return File path of csv (Uri)
@@ -738,43 +595,13 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
             return (file == null) ? null : Uri.fromFile(file);
         }
 
-        /**
-         * Alert notification
-         */
-        private void showAlertNotification(boolean doReset, boolean zeroCap) {
-            // Show alert box that asks to confirm deletion
-            AlertDialog.Builder alert = new AlertDialog.Builder(SensorDataActivity.this);
-            alert.setTitle("Are you sure?");
-            alert.setMessage(zeroCap ? "This will zero the capacitance" : "This will delete all the sensor's readings!");
-            alert.setPositiveButton("YES", (dialog, whichButton) -> {
-                /**
-                 * If you want to zero the capacitance, then you don't want to reset the graph.
-                 * Otherwise reset the graph.
-                 */
-                if(zeroCap) {
-                    /**
-                     * Request = Zero the capacitance (??)
-                     */
-                } else {
-                    // Remove data from Firebase
-                    // mReadingsRef.removeValue();
-                    mGraph.removeAllSeries();
-                    if (doReset) resetSensor();
-                }
-            });
-
-            alert.setNegativeButton("NO", (dialog, whichButton) -> {
-            });
-            alert.show();
-        }
-
     @Override
     public void candidateBleDevice(final BluetoothDevice device, final byte[] scan_record, int rssi) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 if(device.getAddress().equalsIgnoreCase(device_address)){
-                    device_data = scan_record;
+                    // device_data = scan_record;
                 }
             }
         });
@@ -785,13 +612,13 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
     }
     @Override
     public void scanningStopped() {
-        if (toast != null) {
-            toast.cancel();
-        }
+//        if (toast != null) {
+//            toast.cancel();
+//        }
         setScanState(false);
     }
     private void setScanState(boolean value) {
-        ble_scanning = value;
+        // ble_scanning = value;
     }
 
     public void onScan(View view) {
@@ -816,27 +643,20 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
     }
     private void startScanning() {
         if (permissions_granted) {
-            simpleToast(Constants.SCANNING,2000);
+            ToasterService.makeToast(this, Constants.SCANNING,2000);
             ble_scanner.startScanning(this, SCAN_TIMEOUT);
         } else {
             Log.i(Constants.TAG, "Permission to perform Bluetooth scanning was not yet granted");
         }
     }
 
-    private void simpleToast(String message, int duration) {
-        toast = Toast.makeText(this, message, duration);
-        toast.setGravity(Gravity.CENTER, 0, 0);
-        toast.show();
-    }
-
-
     private void requestLocationPermission() {
         Log.i(Constants.TAG, "Location permission has NOT yet been granted. Requesting permission.");
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION)){
             Log.i(Constants.TAG, "Displaying location permission rationale to provide additional context.");
             final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
-            builder.setTitle("Permission Required");
-            builder.setMessage("Please grant Location access so this application can perform Bluetooth scanning");
+            builder.setTitle(REQ_LOC_TITLE);
+            builder.setMessage(REQ_LOC_BODY);
             builder.setPositiveButton(android.R.string.ok, null);
             builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 public void onDismiss(DialogInterface dialog) {
@@ -928,14 +748,14 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
                 viewHolder = (SensorDataActivity.ViewHolder) view.getTag();
             }
 
-            viewHolder.time.setText(readings.get(i).get("Date"));
-            viewHolder.temp.setText(readings.get(i).get("Temperature"));
-            viewHolder.voltage.setText(readings.get(i).get("Voltage"));
+            viewHolder.time.setText(readings.get(i).get(DATE_MAP_KEY));
+            viewHolder.temp.setText(readings.get(i).get(TEMP_MAP_KEY));
+            viewHolder.voltage.setText(readings.get(i).get(VOLTAGE_MAP_KEY));
 
             if(isAD7747) {
-                viewHolder.capacitance.setText(readings.get(i).get("Capacitance"));
+                viewHolder.capacitance.setText(readings.get(i).get(AD7747_MAP_KEY));
             } else {
-                String freq = readings.get(i).get("Frequency");
+                String freq = readings.get(i).get(RF_MAP_KEY);
                 viewHolder.frequency.setText(freq);
                 viewHolder.capacitance.setText(convertFreqToCap(freq));
             }
@@ -972,19 +792,19 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
         // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
         input.setInputType(InputType.TYPE_CLASS_TEXT);
         alert.setView(input);
-        alert.setTitle("Change Name of Sensor");
-        alert.setMessage("Choose what to append to Tyrata_");
+        alert.setTitle(EDIT_NAME_TITLE);
+        alert.setMessage(EDIT_NAME_BODY);
         // Set up the buttons
-        alert.setPositiveButton("Set", new DialogInterface.OnClickListener() {
+        alert.setPositiveButton(SET, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String x = input.getText().toString();
-                bluetooth_le_adapter.sendMessage("ID=" + x);
-                device_name = "Tyrata_0"+x;
+                bluetooth_le_adapter.setId(x);
+                device_name = SENSOR_BASE + x;
                 AlertDialog.Builder alert2 = new AlertDialog.Builder(view.getContext());
-                alert2.setTitle("Reminder");
-                alert2.setMessage("Change will take effect after BLE is power cycled.");
-                alert2.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                alert2.setTitle(EDIT_NAME_TITLE2);
+                alert2.setMessage(EDIT_NAME_BODY2);
+                alert2.setPositiveButton(OK, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog2, int which) {
 
@@ -994,7 +814,7 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
                 alert2.show();
             }
         });
-        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        alert.setNegativeButton(CANCEL, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
@@ -1006,6 +826,8 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
         // TODO: Fix this shitty tree
         if(s.contains("7747") && !s.contains("pf")) {
             handleRegData(s);
+        } else if(s.contains("pf")) {
+            getDataFromReading(s);
         } else if(s.contains("TIME")) {
             handleTimeData(s);
         } else if(s.contains("TEMP =")) {
@@ -1093,9 +915,9 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
         int tempNum = Integer.parseInt(temp);
         double tempDoub = milliConversion(tempNum, 1);
         if(isAfterReading) {
-            lastReading.put("Temperature", tempDoub + "");
+            lastReading.put(TEMP_MAP_KEY, tempDoub + "");
             showMsg("Size of lastReading: " + lastReading.size());
-            bluetooth_le_adapter.sendMessage("Battery?");
+            bluetooth_le_adapter.requestVoltage();
         } else {
             AD7747SettingsActivity.tempVal.setText(tempDoub + " C");
         }
@@ -1108,9 +930,9 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
                 showMsg("Map of readings was null trying to add time, either this means you did it out of order or the frequency never got called.");
                 return;
             }
-            lastReading.put("Time", timeArr[1]);
+            lastReading.put(TIME_MAP_KEY, timeArr[1]);
             showMsg("Size of lastReading: " + lastReading.size());
-            bluetooth_le_adapter.sendMessage("Temperature?");
+            bluetooth_le_adapter.requestTemp();
         }
         //TODO: What are we doing with time?
         //  AD7747SettingsActivity.timeVal.setText(time);
@@ -1124,7 +946,7 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
         int voltage = Integer.parseInt(voltageString);
         double voltageDoub = milliConversion(voltage, 1);
         if(isAfterReading) {
-            lastReading.put("Voltage", voltageDoub + "");
+            lastReading.put(VOLTAGE_MAP_KEY, voltageDoub + "");
             showMsg("Size of lastReading: " + lastReading.size());
             showMsg("Should be adding to table");
             addLastReadingToTable();
@@ -1176,11 +998,100 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
     }
 
     private void onConnected() {
-       checkSensor();
+        bluetooth_le_adapter.discoverServices();
+        showMsg(CONNECTED);
+        ((Button) SensorDataActivity.this.findViewById(R.id.req_btn)).setEnabled(true);
+        ((TextView) findViewById(R.id.is_connected)).setText(CONNECTED);
+        View editName = findViewById(R.id.ic_settings);
+        editName.setEnabled(true);
+        findViewById(R.id.more_settings).setEnabled(true);
+        try {
+            Thread.sleep(500);
+            bluetooth_le_adapter.setSensor(isAD7747 ? AD7747_ID : RF_ID);
+            Thread.sleep(500);
+            bluetooth_le_adapter.requestSensor();
+            Thread.sleep(1000);
+            if(isAfterReading) {
+                bluetooth_le_adapter.requestFreq();
+                showMsg("Just sent HZ");
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void onDisconnected() {
+        showMsg("DISCONNECTED");
+        if (back_requested) {
+            SensorDataActivity.this.finish();
+        }
+    }
+
+    private void onServiceDiscovered() {
+        List<BluetoothGattService> slist = bluetooth_le_adapter.getSupportedGattServices();
+        boolean uart_present = false;
+
+        for (BluetoothGattService svc : slist) {
+
+            if(svc.getUuid().toString().equalsIgnoreCase(BleAdapterService.NORDIC_UART_UUID)) {
+                uart_present = true;
+                continue;
+            }
+        }
+        if(uart_present) {
+            showMsg("UART Baby");
+            bluetooth_le_adapter.readCharacteristic(
+                    BleAdapterService.LINK_LOSS_SERVICE_UUID,
+                    BleAdapterService.RX_UUID);
+        } else {
+            showMsg("Device does not have expected GATT services");
+        }
+    }
+
+    private void onReadChar(Message msg) {
+        Bundle bundle;
+        byte[] b = null;
+        bundle = msg.getData();
+
+        if (bundle.get(BleAdapterService.PARCEL_CHARACTERISTIC_UUID).toString()
+                .toUpperCase().equals(BleAdapterService.RX_UUID)
+                && bundle.get(BleAdapterService.PARCEL_SERVICE_UUID).toString()
+                .toUpperCase().equals(BleAdapterService.NORDIC_UART_UUID)) {
+            b = bundle.getByteArray(BleAdapterService.PARCEL_VALUE);
+            if (b.length > 0) {
+
+            }
+        }
+    }
+
+    private void onWriteChar(Message msg) {
+        Bundle bundle;
+        byte[] b = null;
+        bundle = msg.getData();
+        if (bundle.get(BleAdapterService.PARCEL_CHARACTERISTIC_UUID).toString()
+                .toUpperCase().equals(BleAdapterService.TX_UUID)
+                && bundle.get(BleAdapterService.PARCEL_SERVICE_UUID).toString()
+                .toUpperCase().equals(BleAdapterService.NORDIC_UART_UUID)) {
+            b = bundle.getByteArray(BleAdapterService.PARCEL_VALUE);
+            if (b.length > 0) {
+                showMsg(Arrays.toString(b));
+            }
+        }
+    }
+
+    private void onNotificationRecd(Message msg) {
+        Bundle bundle;
+        byte[] b = null;
+        bundle = msg.getData();
+        b = bundle.getByteArray(BleAdapterService.PARCEL_VALUE);
+        System.out.println("SEND ME THIS LINE MICHAEL (Response): " + new String(b));
+        handleIncoming(new String(b));
+        Log.d(Constants.TAG, Arrays.toString(b));
     }
 
     private void checkSensor() {
-        Query doc = db.collection("sensors").whereEqualTo("MAC", device_address);
+        Query doc = db.collection(SENSOR_DB).whereEqualTo(SENSOR_MAC_DB, device_address);
         doc.get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -1188,7 +1099,7 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
                         List<DocumentSnapshot> docs = queryDocumentSnapshots.getDocuments();
                         if(!docs.isEmpty()) {
                             String docId = docs.get(0).getId();
-                            Query typeQuery = db.collection(coll).whereEqualTo("SensorId", docId);
+                            Query typeQuery = db.collection(coll).whereEqualTo(SENSOR_ID_DB, docId);
                             typeQuery.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                                 @Override
                                 public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -1216,11 +1127,11 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
                         } else {
                             // Create a new sensors with fields
                             Map<String, Object> sensor = new HashMap<>();
-                            sensor.put("Name", device_name);
-                            sensor.put("MAC", device_address);
+                            sensor.put(SENSOR_NAME_DB, device_name);
+                            sensor.put(SENSOR_MAC_DB, device_address);
 
                             // Add a new document with a generated ID
-                            db.collection("sensors")
+                            db.collection(SENSOR_DB)
                                     .add(sensor)
                                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                         @Override
@@ -1255,8 +1166,8 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
     private void addTypeSensor(String docId) {
         // Create a new sensors with fields
         Map<String, Object> sensor = new HashMap<>();
-        sensor.put("SensorId", docId);
-        sensor.put("readings", new ArrayList<HashMap<String, String>>());
+        sensor.put(SENSOR_ID_DB, docId);
+        sensor.put(READINGS_DB, new ArrayList<HashMap<String, String>>());
 
         // Add a new document with a generated ID
         db.collection(coll)
@@ -1279,5 +1190,134 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
                         Log.w(TAG, "Error adding document", e);
                     }
                 });
+    }
+
+    private void getDataFromReading(String s) {
+        reading = reading + s;
+        if(!validateReading() || !isAD7747){
+            return;
+        }
+        System.out.println("This should be the entire reading: " + reading);
+        String d = getScan(CAP_TAG);
+        String time = getScan(TIME_TAG);
+        String t = getScan(TEMP_TAG);
+        String v = getScan(VOLTAGE_TAG);
+        this.lastReading = new HashMap<>();
+        lastReading.put(isAD7747 ? AD7747_MAP_KEY : RF_MAP_KEY , d);
+        lastReading.put(TIME_MAP_KEY, time);
+        lastReading.put(TEMP_MAP_KEY, t);
+        lastReading.put(VOLTAGE_MAP_KEY, v);
+        addLastReadingToTable();
+        reading = "";
+    }
+
+    private void addLastReadingToTable() {
+        if(lastReading == null) {
+            showMsg("Somewhere along the way you tried adding to the table when you shouldn't have, can't add anything");
+            return;
+        }
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        lastReading.put(DATE_MAP_KEY, dateFormat.format(date));
+        active_sensor.getReference().update(READINGS_DB, FieldValue.arrayUnion(lastReading));
+        readings_list_adapter.addMeasurement(lastReading);
+        readings_list_adapter.notifyDataSetChanged();
+        showGraph();
+    }
+
+    private boolean validateReading() {
+        return reading.contains("</V>");
+    }
+
+    private String getScan(String s) {
+        String[] sArr = reading.split("<"+ s + ">");
+        String dataStr = sArr[1];
+        String[] dataArr = dataStr.split("<");
+        String data = dataArr[0];
+        if(data.contains("AD7747")) {
+            data = "Out of Range";
+        }
+        System.out.println("MICHAEL: " + s + " is what you're getting.... Value is " + data);
+        return data;
+    }
+    private void initialize() {
+        initVariables();
+        setToolbar();
+        setDeviceData();
+        initGraph();
+        setButtons();
+        setLabels();
+        setLists();
+        setSpinners();
+    }
+
+    private void setSpinners() {
+        createIntervalSpinner();
+        createAxisSpinner();
+    }
+    private void setLists() {
+        ListView listView = (ListView) this.findViewById(R.id.other_info);
+        listView.setAdapter(readings_list_adapter);
+    }
+    private void initVariables() {
+        isAD7747 = sensor_mode.equalsIgnoreCase(Constants.AD7747_MODE);
+        coll = isAD7747 ? AD7747_DB : RF_DB;
+        isReadings = true;
+        ble_scanner = new BleScanner(this.getApplicationContext());
+        mHandler = new Handler();
+    }
+
+    private void setToolbar() {
+        setActionBar(new Toolbar(getApplicationContext()));
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setDisplayShowHomeEnabled(true);
+    }
+
+    private void initGraph() {
+        GraphView graphView = findViewById(R.id.graph_beta);
+        mGraph = new Graph(graphView, READINGS, (isAD7747  ? CAPACITANCE_LABEL : FREQUENCY_LABEL), "");
+        //mGraph.addSecondaryAxis("Temperature (C)");
+    }
+
+    private void setDeviceData() {
+        View editName = findViewById(R.id.ic_settings);
+        editName.setEnabled(false);
+        findViewById(R.id.more_settings).setEnabled(false);
+        ((TextView) findViewById(R.id.is_connected)).setText(NOT_CONNECTED);
+        readings_list_adapter = new SensorDataActivity.ListAdapter();
+        final Intent intent = getIntent();
+        device_name = intent.getStringExtra(Constants.SENSOR_NAME);
+        device_address = intent.getStringExtra(Constants.SENSOR_MAC);
+
+// show the device name
+        ((TextView) this.findViewById(R.id.device_address)).setText(device_address);
+        ((TextView) this.findViewById(R.id.device_name)).setText(device_name);
+// connect to the Bluetooth adapter service
+        Intent gattServiceIntent = new Intent(this, BleAdapterService.class);
+        bindService(gattServiceIntent, service_connection, BIND_AUTO_CREATE);
+    }
+
+    private void setButtons() {
+        Button settingsBtn = findViewById(R.id.more_settings);
+        settingsBtn.setOnClickListener(view -> settingsListener());
+
+        Button clr_btn = findViewById(R.id.clear_data);
+        clr_btn.setOnClickListener(view -> clearData());
+        // Redraw graph
+        ImageView resetGraphBtn = findViewById(R.id.reset_graph);
+        resetGraphBtn.setOnClickListener(view -> showGraph());
+
+        Button share_btn = findViewById(R.id.share_btn);
+        share_btn.setOnClickListener(view -> onExportData());
+
+        Button reset_btn = findViewById(R.id.reset_sensor);
+        reset_btn.setOnClickListener(view -> resetSensor());
+    }
+
+    private void setLabels() {
+        TextView freqTxt = findViewById(R.id.freq_text);
+        freqTxt.setText(isAD7747 ? "" : FREQUENCY_LABEL);
+        TextView dataTxt = findViewById(R.id.collected_data_text);
+        dataTxt.setText(isAD7747 ? CAPACITANCE_DATA_LABEL : FREQUENCY_DATA_LABEL);
     }
 }

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#404040"
-    tools:context=".ui.v2.SensorDataActivity">
+    tools:context=".ui.SensorDataActivity">
 
     <include
         android:id="@+id/toolbar"

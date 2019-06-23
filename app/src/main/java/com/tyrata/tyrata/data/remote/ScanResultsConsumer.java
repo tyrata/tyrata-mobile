@@ -1,4 +1,4 @@
-package com.tyrata.tyrata.data.remote.v2;
+package com.tyrata.tyrata.data.remote;
 
 import android.bluetooth.BluetoothDevice;
 

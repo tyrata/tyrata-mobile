@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/login_gradients"
-    tools:context="com.tyrata.tyrata.ui.input.SignUpActivity">
+    tools:context="com.tyrata.tyrata.ui.SignUpActivity">
 
   <ImageView
       android:id="@+id/register_logo"

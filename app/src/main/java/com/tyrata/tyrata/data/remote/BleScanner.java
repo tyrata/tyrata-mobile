@@ -1,4 +1,4 @@
-package com.tyrata.tyrata.data.remote.v2;
+package com.tyrata.tyrata.data.remote;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothManager;
@@ -18,7 +18,6 @@ import com.tyrata.tyrata.data.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class BleScanner {

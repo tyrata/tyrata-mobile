@@ -32,9 +32,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.tyrata.tyrata.R;
 import com.tyrata.tyrata.data.Constants;
-import com.tyrata.tyrata.data.remote.v2.BleScanner;
-import com.tyrata.tyrata.data.remote.v2.ScanResultsConsumer;
-import com.tyrata.tyrata.ui.v2.SensorDataActivity;
+import com.tyrata.tyrata.data.remote.BleScanner;
+import com.tyrata.tyrata.data.remote.ScanResultsConsumer;
 
 import java.util.ArrayList;
 import java.util.HashMap;

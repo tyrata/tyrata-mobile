@@ -1,4 +1,4 @@
-package com.tyrata.tyrata.data.remote.v2;
+package com.tyrata.tyrata.data.remote;
 
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
@@ -15,7 +15,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Binder;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
 import android.os.Bundle;
 import android.os.Message;
 import android.util.Log;
@@ -25,6 +24,45 @@ import com.tyrata.tyrata.data.Constants;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+
+import static com.tyrata.tyrata.data.Commands.AD7747_REG;
+import static com.tyrata.tyrata.data.Commands.HZ;
+import static com.tyrata.tyrata.data.Commands.REQUEST;
+import static com.tyrata.tyrata.data.Commands.REQUEST_BLETIMOUT;
+import static com.tyrata.tyrata.data.Commands.REQUEST_FREQ1INC;
+import static com.tyrata.tyrata.data.Commands.REQUEST_FREQ2INC;
+import static com.tyrata.tyrata.data.Commands.REQUEST_FREQ2OFFSET;
+import static com.tyrata.tyrata.data.Commands.REQUEST_FREQ3INC;
+import static com.tyrata.tyrata.data.Commands.REQUEST_FREQ3OFFSET;
+import static com.tyrata.tyrata.data.Commands.REQUEST_FREQ4INC;
+import static com.tyrata.tyrata.data.Commands.REQUEST_FREQ4OFFSET;
+import static com.tyrata.tyrata.data.Commands.REQUEST_FREQEND;
+import static com.tyrata.tyrata.data.Commands.REQUEST_FREQSTART;
+import static com.tyrata.tyrata.data.Commands.REQUEST_ID;
+import static com.tyrata.tyrata.data.Commands.REQUEST_PEAKS;
+import static com.tyrata.tyrata.data.Commands.REQUEST_SENSOR;
+import static com.tyrata.tyrata.data.Commands.REQUEST_VOLTAGE;
+import static com.tyrata.tyrata.data.Commands.SCAN;
+import static com.tyrata.tyrata.data.Commands.SET;
+import static com.tyrata.tyrata.data.Commands.SET_BLETIMEOUT;
+import static com.tyrata.tyrata.data.Commands.SET_FACTORY;
+import static com.tyrata.tyrata.data.Commands.SET_FREQ1INC;
+import static com.tyrata.tyrata.data.Commands.SET_FREQ2INC;
+import static com.tyrata.tyrata.data.Commands.SET_FREQ2OFFSET;
+import static com.tyrata.tyrata.data.Commands.SET_FREQ3INC;
+import static com.tyrata.tyrata.data.Commands.SET_FREQ3OFFSET;
+import static com.tyrata.tyrata.data.Commands.SET_FREQ4INC;
+import static com.tyrata.tyrata.data.Commands.SET_FREQ4OFFSET;
+import static com.tyrata.tyrata.data.Commands.SET_FREQEND;
+import static com.tyrata.tyrata.data.Commands.SET_FREQSTART;
+import static com.tyrata.tyrata.data.Commands.SET_ID;
+import static com.tyrata.tyrata.data.Commands.SET_PEAKS;
+import static com.tyrata.tyrata.data.Commands.SET_SENSOR;
+import static com.tyrata.tyrata.data.Commands.SLEEP_OFF;
+import static com.tyrata.tyrata.data.Commands.SLEEP_ON;
+import static com.tyrata.tyrata.data.Commands.TEMP;
+import static com.tyrata.tyrata.data.Commands.ZEROIZE;
+import static com.tyrata.tyrata.data.Constants.CAPDACA;
 
 public class BleAdapterService extends Service {
     private BluetoothAdapter bluetooth_adapter;
@@ -344,5 +382,157 @@ public class BleAdapterService extends Service {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public void requestPeaks() {
+        sendMessage(REQUEST_PEAKS);
+    }
+
+    public void setPeaks(String peaks) {
+        sendMessage(SET_PEAKS + peaks);
+    }
+
+    public void requestFreqStart() {
+        sendMessage(REQUEST_FREQSTART);
+    }
+
+    public void setFreqStart(String freqStart) {
+        sendMessage(SET_FREQSTART + freqStart);
+    }
+
+    public void requestFreqEnd() {
+        sendMessage(REQUEST_FREQEND);
+    }
+
+    public void setFreqEnd(String freqEnd) {
+        sendMessage(SET_FREQEND + freqEnd);
+    }
+
+    public void requestFreq1Inc() {
+        sendMessage(REQUEST_FREQ1INC);
+    }
+
+    public void setFreq1Inc(String freq1Inc) {
+        sendMessage(SET_FREQ1INC + freq1Inc);
+    }
+
+    public void requestFreq2Inc() {
+        sendMessage(REQUEST_FREQ2INC);
+    }
+
+    public void setFreq2Inc(String freq2Inc) {
+        sendMessage(SET_FREQ2INC + freq2Inc);
+    }
+
+    public void requestFreq3Inc() {
+        sendMessage(REQUEST_FREQ3INC);
+    }
+
+    public void setFreq3Inc(String freq3Inc) {
+        sendMessage(SET_FREQ3INC + freq3Inc);
+    }
+
+    public void requestFreq4Inc() {
+        sendMessage(REQUEST_FREQ4INC);
+    }
+
+    public void setFreq4Inc(String freq4Inc) {
+        sendMessage(SET_FREQ4INC + freq4Inc);
+    }
+
+    public void requestFreq2Offset() {
+        sendMessage(REQUEST_FREQ2OFFSET);
+    }
+
+    public void setFreq2Offset(String freq2Offset) {
+        sendMessage(SET_FREQ2OFFSET + freq2Offset);
+    }
+
+    public void requestFreq3Offset() {
+        sendMessage(REQUEST_FREQ3OFFSET);
+    }
+
+    public void setFreq3Offset(String freq3Offset) {
+        sendMessage(SET_FREQ3OFFSET + freq3Offset);
+    }
+
+    public void requestFreq4Offset() {
+        sendMessage(REQUEST_FREQ4OFFSET);
+    }
+
+    public void setFreq4Offset(String freq4Offset) {
+        sendMessage(SET_FREQ4OFFSET + freq4Offset);
+    }
+
+    public void requestVoltage() {
+        sendMessage(REQUEST_VOLTAGE);
+    }
+
+    public void requestBleTimeout() {
+        sendMessage(REQUEST_BLETIMOUT);
+    }
+
+    public void setBleTimeout(String timeout) {
+        sendMessage(SET_BLETIMEOUT + timeout);
+    }
+
+    public void factory() {
+        sendMessage(SET_FACTORY);
+    }
+
+    public void requestSensor() {
+        sendMessage(REQUEST_SENSOR);
+    }
+
+    public void setSensor(String sensor) {
+        sendMessage(SET_SENSOR + sensor);
+    }
+
+    public void scan() {
+        sendMessage(SCAN);
+    }
+
+    public void sleepOn() {
+        sendMessage(SLEEP_ON);
+    }
+
+    public void sleepOff() {
+        sendMessage(SLEEP_OFF);
+    }
+
+    public void zeroize() {
+        sendMessage(ZEROIZE);
+    }
+
+    public void requestReg(String reg) {
+        sendMessage(AD7747_REG + reg + REQUEST);
+    }
+
+    public void setReg(String reg, String val) {
+        sendMessage(AD7747_REG + reg + SET + val);
+    }
+
+    public void requestCapDacA() {
+        requestReg(CAPDACA);
+    }
+
+    public void setCapDacA(String val) {
+        setReg(CAPDACA, val);
+    }
+
+    public void requestTemp() {
+        sendMessage(TEMP);
+    }
+
+    public void requestFreq() {
+        sendMessage(HZ);
+    }
+
+    public void requestId() {
+        sendMessage(REQUEST_ID);
+    }
+
+    public void setId(String name) {
+        sendMessage(SET_ID + name);
     }
 }

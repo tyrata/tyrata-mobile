@@ -6,20 +6,17 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattService;
-import android.bluetooth.BluetoothManager;
 import android.bluetooth.le.BluetoothLeScanner;
 import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanFilter;
 import android.bluetooth.le.ScanResult;
 import android.bluetooth.le.ScanSettings;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.ParcelUuid;
-import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 import android.util.Pair;
@@ -32,8 +29,7 @@ import android.util.SparseArray;
 //import com.google.firebase.database.DatabaseReference;
 //import com.google.firebase.database.FirebaseDatabase;
 //import com.google.firebase.database.ValueEventListener;
-import com.tyrata.tyrata.data.model.Sensor;
-import com.tyrata.tyrata.data.model.v2.Reading;
+import com.tyrata.tyrata.data.model.Reading;
 import com.tyrata.tyrata.util.CommonUtil;
 
 import java.util.ArrayList;
@@ -122,7 +118,7 @@ public class BluetoothLeService extends Service {
     private void findActiveDevices() {
        // Log.d(TAG, "Checking for Active devices!");
         boolean inactiveDevicesFound = false;
-        for (Iterator<Map.Entry<String, Pair<Long, com.tyrata.tyrata.data.model.v2.Reading>>> it =
+        for (Iterator<Map.Entry<String, Pair<Long, Reading>>> it =
              CommonUtil.activeDevices.entrySet().iterator(); it.hasNext(); ) {
             // Get the sensor info entry in the map
             Map.Entry<String, Pair<Long, Reading>> entry = it.next();
@@ -391,14 +387,14 @@ public class BluetoothLeService extends Service {
         if (!CommonUtil.activeDevices.containsKey(macAddress)) { // Device is now active
             if (CommonUtil.inactiveDevices.contains(macAddress))
                 CommonUtil.inactiveDevices.remove(macAddress);
-            com.tyrata.tyrata.data.model.v2.Reading reading = new com.tyrata.tyrata.data.model.v2.Reading(time, voltage, temp, value, type);
+            Reading reading = new Reading(time, voltage, temp, value, type);
             CommonUtil.activeDevices.put(macAddress, new Pair<>(currentTime, reading));
 
             Log.d(TAG, "Found device " + macAddress);
             broadcastUpdate(ACTION_DEVICE_FOUND);
         } // Update current time that indicates latest data received
         else {
-            com.tyrata.tyrata.data.model.v2.Reading currentReading = CommonUtil.activeDevices.get(macAddress).second;
+            Reading currentReading = CommonUtil.activeDevices.get(macAddress).second;
             if (currentReading.value == value) // If data is same as previous, its not new
                 isNewReading = false;
 

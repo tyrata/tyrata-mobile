@@ -3,7 +3,7 @@ package com.tyrata.tyrata.util;
 import android.util.Pair;
 
 import com.jjoe64.graphview.series.DataPoint;
-import com.tyrata.tyrata.data.model.v2.Reading;
+import com.tyrata.tyrata.data.model.Reading;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -34,7 +34,7 @@ public class CommonUtil {
     // @Todo Change Hardcoded sensor information displayed in Tester View (BetaTesterActivity.java)
     public static String[] sensorValues = new String[3];
 
-    public static Map<String, Pair<Long, com.tyrata.tyrata.data.model.v2.Reading>> activeDevices = new HashMap<>();
+    public static Map<String, Pair<Long, Reading>> activeDevices = new HashMap<>();
     // public static Map<String, Pair<Long, Reading>> activeDevices = new HashMap<>();
     public static Set<String> inactiveDevices = new HashSet<>();
     private static final double[] THICKNESS_MM = {7.9375,7.826375,7.7231875,7.5803125,7.52475,7.39775,7.350125,7.2945625,7.2469375,7.1993125,7.0723125,6.985,6.9453125,6.88975,6.82625,6.76275,6.69925,6.6436875,6.5325625,6.50875,6.50875,6.50875,6.4531875,6.3896875,6.35,6.2865,6.25475,6.0721875,5.889625,5.857875,5.74675,5.7070625,5.667375,5.6276875,5.572125,5.5483125,5.4530625,5.4530625,5.4530625,5.413375,5.4054375,5.3419375,5.2705,5.1831875,5.1514375,5.0720625,5.0165,4.9926875,4.9291875,4.9291875,4.905375,4.905375,4.905375,4.85775,4.8339375,4.778375,4.7625,4.714875,4.6434375,4.5799375,4.54025,4.4529375,4.34975,4.175125,4.1036875,4.064,4.0005,3.937,3.8973125,3.84175,3.8020625,3.7465,3.6909375,3.6750625,3.5798125,3.5480625,3.52425,3.4925,3.4369375,3.39725,3.39725,3.39725,3.3655,3.3258125,3.286125,3.254375,3.254375,3.222625,3.175,3.0718125,2.9765625,2.9289375,2.8654375,2.8178125,2.7701875,2.714625,2.6749375,2.6114375,2.555875,2.460625,2.4050625,2.3256875,2.2225,2.2225,2.2225,2.2225,2.174875,2.12725,2.0716875,2.00025,1.9446875,1.857375,1.8415,1.8018125,1.762125,1.7065625,1.68275,1.6589375,1.635125,1.603375,1.5875};
