@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<message>
+    <download>
+        <user>
+            <name>ming2</name>
+            <email>mng@163.com</email>
+            <phone_number>1234567</phone_number>
+        </user>
+        <vehicle>
+            <vin>1FMCU0F75FUA23017</vin>
+            <make>Ford</make>
+            <model>Escape</model>
+            <year>2015</year>
+            <axis_num>2</axis_num>
+            <tire_num>4</tire_num>
+            <email>nancy@duke.edu</email>
+        </vehicle>
+        <vehicle>
+            <vin>2HGBH41HSTG106732</vin>
+            <make>Ford</make>
+            <model>Mustang</model>
+            <year>2013</year>
+            <axis_num>5</axis_num>
+            <tire_num>18</tire_num>
+            <email>nancy@duke.edu</email>
+        </vehicle>
+        <vehicle>
+            <vin>6HGBH783TSVC135212</vin>
+            <make>Peugeot</make>
+            <model>Pontiac</model>
+            <year>2013</year>
+            <axis_num>3</axis_num>
+            <tire_num>6</tire_num>
+            <email>Alan@duke.edu</email>
+        </vehicle>
+        <tire>
+            <sensorid>T-0001</sensorid>
+            <manufacturer>APPOLO</manufacturer>
+            <model>P225/45R17 91V</model>
+            <sku>CM01-R</sku>
+
+            <vin>1FMCU0F75FUA23017</vin>
+            <axisrow>1</axisrow>
+            <axisside>L</axisside>
+            <axisindex>1</axisindex>
+            <initthickness>15</initthickness>
+        </tire>
+        <tire>
+            <sensorid>T-0002</sensorid>
+            <manufacturer>MECHELIN</manufacturer>
+            <model>P215/65R17 98T</model>
+            <sku>CM01-W</sku>
+
+            <vin>1FMCU0F75FUA23017</vin>
+            <axisrow>1</axisrow>
+            <axisside>R</axisside>
+            <axisindex>1</axisindex>
+            <initthickness>14</initthickness>
+        </tire>
+        <tire>
+            <sensorid>T-0003</sensorid>
+            <manufacturer>MAXXI</manufacturer>
+            <model>P225/45R17 91V</model>
+            <sku>CM01-B</sku>
+
+            <vin>1FMCU0F75FUA23017</vin>
+            <axisrow>2</axisrow>
+            <axisside>L</axisside>
+            <axisindex>1</axisindex>
+            <initthickness>13</initthickness>
+        </tire>
+        <tire>
+            <sensorid>T-0004</sensorid>
+            <manufacturer>YOKOHAMA</manufacturer>
+            <model>P215/65R17 98T</model>
+            <sku>CM01-J</sku>
+
+            <vin>1FMCU0F75FUA23017</vin>
+            <axisrow>2</axisrow>
+            <axisside>R</axisside>
+            <axisindex>1</axisindex>
+            <initthickness>12</initthickness>
+        </tire>
+    </download>
+</message>

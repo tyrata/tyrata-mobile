@@ -1,0 +1,381 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#404040"
+    tools:context=".ui.v2.SensorDataActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_scalable"
+        android:layout_width="799dp"
+        android:layout_height="81dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="336dp"
+        android:layout_marginTop="92dp"
+        android:text="SENSOR INFO"
+        android:textColor="#F5E01B"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/device_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="640dp"
+        android:layout_marginTop="120dp"
+        android:text="Unknown Name"
+        android:textColor="#F5E01B"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/is_connected"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="516dp"
+        android:layout_marginTop="96dp"
+        android:text="Not Connected"
+        android:textColor="#F5E01B"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/device_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="616dp"
+        android:layout_marginTop="156dp"
+        android:text="Unknown Address"
+        android:textColor="#F5E01B"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView24"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="116dp"
+        android:text="Device Name:"
+        android:textColor="#F5E01B"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView21"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="156dp"
+        android:text="Device Address:"
+        android:textColor="#F5E01B"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/collected_data_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="196dp"
+        android:text="DATA"
+        android:textColor="#F5E01B"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/epoch_selector"
+        android:layout_width="373dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="232dp"
+        android:background="#F5E01B"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/x-axis_selector"
+        android:layout_width="192dp"
+        android:layout_height="39dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginBottom="4dp"
+        android:background="#F5E01B"
+        app:layout_constraintBottom_toTopOf="@+id/graph_beta"
+        app:layout_constraintStart_toStartOf="parent" />
+    <Button
+        android:id="@+id/req_btn"
+        android:layout_width="365dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="232dp"
+        android:layout_marginEnd="16dp"
+        android:background="#F5E01B"
+        android:text="GET READING"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--<Button-->
+    <!--android:id="@+id/pair_btn"-->
+    <!--android:layout_width="230dp"-->
+    <!--android:layout_height="53dp"-->
+    <!--android:layout_marginTop="296dp"-->
+    <!--android:layout_marginEnd="68dp"-->
+    <!--android:background="#F5E01B"-->
+    <!--android:onClick="onConnect"-->
+    <!--android:text="Pair with Sensor"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintTop_toTopOf="parent" />-->
+
+    <Button
+        android:id="@+id/more_settings"
+        android:layout_width="303dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="292dp"
+        android:layout_marginEnd="252dp"
+        android:background="#F5E01B"
+        android:text="Settings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ListView
+        android:id="@+id/other_info"
+        android:layout_width="778dp"
+        android:layout_height="395dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:divider="#F5E01B"
+        android:dividerHeight="1dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView13"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.666"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/freq_text"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <com.jjoe64.graphview.GraphView
+        android:id="@+id/graph_beta"
+        android:layout_width="756dp"
+        android:layout_height="318dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="124dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/clear_data"
+        android:layout_width="375dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginBottom="64dp"
+        android:background="#F5E01B"
+        android:text="Clear collected data"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/share_btn"
+        android:layout_width="366dp"
+        android:layout_height="47dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="65dp"
+        android:background="#F5E01B"
+        android:text="EXPORT COLLECTED DATA"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/reset_sensor"
+        android:layout_width="584dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="108dp"
+        android:layout_marginBottom="4dp"
+        android:background="#F5E01B"
+        android:text="FACTORY RESET"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_toolbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.08" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_sensor_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.18" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_middle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.55" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.50" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="348dp"
+        android:layout_marginBottom="448dp"
+        android:text="DATAPLOT"
+        android:textColor="#F5E01B"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/reset_graph"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="444dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_refresh" />
+
+    <TextView
+        android:id="@+id/textView9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="116dp"
+        android:layout_marginTop="348dp"
+        android:text="Timestamp"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="18dp"
+        android:layout_marginStart="488dp"
+        android:layout_marginTop="348dp"
+        android:text="Temperature (C)"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toEndOf="@+id/textView9"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="348dp"
+        android:layout_marginEnd="132dp"
+        android:text="Battery Voltage (V)"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/cap_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="348dp"
+        android:layout_marginEnd="264dp"
+        android:text="Capacitance (pF)"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/freq_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="348dp"
+        android:layout_marginEnd="380dp"
+        android:text="Frequency (Hz)"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="264dp"
+        app:layout_constraintBottom_toBottomOf="@+id/epoch_selector"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/epoch_selector"
+        app:srcCompat="@drawable/ic_down" />
+
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="192dp"
+        app:layout_constraintBottom_toBottomOf="@+id/x-axis_selector"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/x-axis_selector"
+        app:layout_constraintVertical_bias="0.736"
+        app:srcCompat="@drawable/ic_down" />
+    <ImageView
+        android:id="@+id/ic_settings"
+        android:layout_width="26dp"
+        android:layout_height="33dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:onClick="editName"
+        android:src="@drawable/ic_settings"
+        app:layout_constraintStart_toEndOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <!--<TextView-->
+        <!--android:id="@+id/x_label"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="50dp"-->
+        <!--android:layout_marginStart="8dp"-->
+        <!--android:layout_marginEnd="8dp"-->
+        <!--app:layout_constraintBottom_toBottomOf="@+id/graph_beta"-->
+        <!--app:layout_constraintEnd_toEndOf="@+id/graph_beta"-->
+        <!--app:layout_constraintStart_toStartOf="@+id/graph_beta" />-->
+
+    <!--<TextView-->
+        <!--android:id="@+id/y_label"-->
+        <!--android:layout_width="50dp"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_marginTop="8dp"-->
+        <!--android:layout_marginBottom="8dp"-->
+        <!--app:layout_constraintBottom_toBottomOf="@+id/x_label"-->
+        <!--app:layout_constraintStart_toStartOf="@+id/graph_beta"-->
+        <!--app:layout_constraintTop_toTopOf="@+id/graph_beta" />-->
+</android.support.constraint.ConstraintLayout>
