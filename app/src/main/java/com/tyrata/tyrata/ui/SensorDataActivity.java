@@ -953,8 +953,21 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
             isAfterReading = false;
         } else {
             switch(sensor_mode) {
-                case(Constants.AD7747_MODE): AD7747SettingsActivity.voltageVal.setText(voltageDoub + "");
-                case(Constants.RF_MODE): FrequencySettingsActivity.voltageVal.setText(voltageDoub + "");
+                case(Constants.AD7747_MODE):
+                    if(AD7747SettingsActivity.voltageVal != null)
+                     AD7747SettingsActivity.voltageVal.setText(voltageDoub + "");
+                    else {
+                    System.out.println("Tried setting AD7747 Voltage Label while it was null...");
+                    }
+                break;
+
+                case(Constants.RF_MODE):
+                    if(FrequencySettingsActivity.voltageVal != null)
+                        FrequencySettingsActivity.voltageVal.setText(voltageDoub + "");
+                    else {
+                        System.out.println("Tried setting RF Voltage Label while it was null...");
+                    }
+                    break;
             }
         }
     }
