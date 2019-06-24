@@ -413,7 +413,7 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
         if(!isAD7747) {
             try {
                 isAfterReading = true;
-                Thread.sleep(30000);
+                Thread.sleep(90000);
                 bluetooth_le_adapter.connect(device_address);
             } catch (InterruptedException e) {
                 e.printStackTrace();
