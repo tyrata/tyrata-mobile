@@ -830,11 +830,11 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
             getDataFromReading(s);
         } else if(s.contains("TIME")) {
             handleTimeData(s);
-        } else if(s.contains("TEMP =")) {
+        } else if(s.contains("TEMP") && s.contains("mC")) {
             handleTempData(s);
         } else if(s.contains("ID")){
             handleIdData(s);
-        } else if (s.contains("BATTERY =")) {
+        } else if (s.contains("BATTERY") && s.contains("mV")) {
             handleVoltageData(s);
         } else if (s.contains("INC")) {
             handleFreqInc(s);
@@ -925,7 +925,7 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
 
     private void handleTimeData(String s) {
         String[] timeArr = s.split("=");
-        if(isAfterReading) {
+        if(isAfterReading && lastReading.size()==1) {
             if(lastReading == null) {
                 showMsg("Map of readings was null trying to add time, either this means you did it out of order or the frequency never got called.");
                 return;
@@ -951,7 +951,6 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
             showMsg("Should be adding to table");
             addLastReadingToTable();
             isAfterReading = false;
-            return;
         } else {
             switch(sensor_mode) {
                 case(Constants.AD7747_MODE): AD7747SettingsActivity.voltageVal.setText(voltageDoub + "");
