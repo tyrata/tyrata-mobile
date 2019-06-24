@@ -1007,7 +1007,7 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
         editName.setEnabled(true);
         findViewById(R.id.more_settings).setEnabled(true);
         try {
-            Thread.sleep(500);
+            Thread.sleep(700);
             bluetooth_le_adapter.setSensor(isAD7747 ? AD7747_ID : RF_ID);
             Thread.sleep(500);
             bluetooth_le_adapter.requestSensor();
