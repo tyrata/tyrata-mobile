@@ -1076,7 +1076,7 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
                 .toUpperCase().equals(BleAdapterService.NORDIC_UART_UUID)) {
             b = bundle.getByteArray(BleAdapterService.PARCEL_VALUE);
             if (b.length > 0) {
-                showMsg(Arrays.toString(b));
+                showMsg(new String(b));
             }
         }
     }
