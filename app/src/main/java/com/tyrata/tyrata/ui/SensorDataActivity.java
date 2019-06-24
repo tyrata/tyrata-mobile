@@ -951,6 +951,7 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
             showMsg("Should be adding to table");
             addLastReadingToTable();
             isAfterReading = false;
+            return;
         } else {
             switch(sensor_mode) {
                 case(Constants.AD7747_MODE): AD7747SettingsActivity.voltageVal.setText(voltageDoub + "");

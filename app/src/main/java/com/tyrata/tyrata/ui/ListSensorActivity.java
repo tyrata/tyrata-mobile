@@ -15,7 +15,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -23,7 +22,6 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -34,6 +32,7 @@ import com.tyrata.tyrata.R;
 import com.tyrata.tyrata.data.Constants;
 import com.tyrata.tyrata.data.remote.BleScanner;
 import com.tyrata.tyrata.data.remote.ScanResultsConsumer;
+import com.tyrata.tyrata.ui.services.ToasterService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,23 +40,29 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.tyrata.tyrata.data.Constants.OK;
+import static com.tyrata.tyrata.data.Constants.SENSOR_DB;
+import static com.tyrata.tyrata.data.Constants.SENSOR_MAC_DB;
+import static com.tyrata.tyrata.data.Constants.SENSOR_NAME_DB;
+
 /**
  * Displays a list of scanned sensors and handles click events
  */
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class ListSensorActivity extends AppCompatActivity implements ScanResultsConsumer {
     private final static String TAG = "BLE Device List";
+    private final static String REQ_LOC_TITLE = "Permission Required";
+    private final static String REQ_LOC_BODY = "Please grant Location access so this application can perform Bluetooth scanning";
+
+    private final static String TYRATA_REGEX = "TYRATA_([0-9])";
+    private final static String NORDIC_REGEX = "Nordic_([A-Za-z0-9])";
     private boolean ble_scanning = false;
-    private Handler handler = new Handler();
     private ListAdapter ble_device_list_adapter;
     private InactiveListAdapter inactive_device_list_adapter;
     private BleScanner ble_scanner;
     private static final long SCAN_TIMEOUT = 5000;
     private static final int REQUEST_LOCATION = 0;
-    private static String[] PERMISSIONS_LOCATION = {Manifest.permission.ACCESS_COARSE_LOCATION};
     private boolean permissions_granted = false;
-    private int device_count = 0;
-    private Toast toast;
     public FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     public static class ViewHolder {
@@ -74,129 +79,7 @@ public class ListSensorActivity extends AppCompatActivity implements ScanResults
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sensor_list);
-        ble_scanner = new BleScanner(this.getApplicationContext());
-        ble_device_list_adapter = new ListAdapter();
-
-        ListView listView = (ListView) this.findViewById(R.id.active_devices);
-        listView.setAdapter(ble_device_list_adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                if (ble_scanning) {
-                    setScanState(false);
-                    ble_scanner.stopScanning();
-                }
-                BluetoothDevice device = ble_device_list_adapter.getDevice(position);
-                if (toast != null) {
-                    toast.cancel();
-                }
-                Intent intent;
-                intent = new Intent(ListSensorActivity.this, SensorDataActivity.class);
-                intent.putExtra(Constants.SENSOR_NAME, device.getName());
-                intent.putExtra(Constants.SENSOR_MAC, device.getAddress());
-                intent.putExtra(Constants.SENSOR_DATA, ble_device_list_adapter.getData(position));
-                startActivity(intent);
-            }
-        });
-        inactive_device_list_adapter = new InactiveListAdapter();
-        ListView inactiveListView = (ListView) this.findViewById(R.id.inactive_devices);
-        inactiveListView.setAdapter(inactive_device_list_adapter);
-        inactiveListView.setOnItemClickListener( new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                if (ble_scanning) {
-                    setScanState(false);
-                    ble_scanner.stopScanning();
-                }
-                InactiveDevice device = inactive_device_list_adapter.getDevice(position);
-                if (toast != null) {
-                    toast.cancel();
-                }
-                Intent intent;
-                intent = new Intent(ListSensorActivity.this, SensorDataActivity.class);
-                intent.putExtra(Constants.SENSOR_NAME, device.name);
-                intent.putExtra(Constants.SENSOR_MAC, device.address);
-                startActivity(intent);
-            }
-        });
-        // Setup the toolbar and back button
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new         Intent(getApplicationContext(), MainActivity.class));
-            }
-        });
-
-        db.collection("sensors")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    inactive_device_list_adapter.clear();
-                                    inactive_device_list_adapter.notifyDataSetChanged();
-                                }
-                            });
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                inactive_device_list_adapter.add(document.get("Name").toString(), document.get("MAC").toString());
-                                Log.d(TAG, document.getId() + " => " + document.get("Name").toString());
-                            }
-                        } else {
-                            Log.w(TAG, "Error getting documents.", task.getException());
-                        }
-                    }
-                });
-//        // Testing section. Brings in whether or not we are in development mode and then sets a
-//        // listener on a button to take us to Beta Testing when there are no sensors available
-//        // TODO: Remove when other testing method is established
-//        String type = "";
-//        Bundle extras = getIntent().getExtras();
-//        if (extras != null) {
-//            type = extras.getString("MODE");
-//            //The key argument here must match that used in the other activity
-//        }
-//        this.type = type;
-//        Button devBtn = findViewById(R.id.devBeta_btn);
-//        devBtn.setText("  " + type + "  ");
-//        devBtn.setOnClickListener(view -> switchToTesting(null, this.type));
-//        // End of Testing Hack
-
-//        // Get the shared instance of the FirebaseAuth object
-//        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-//        FirebaseUser mUser = mAuth.getCurrentUser(); // Get Current User
-//        FirebaseDatabase mDatabase = FirebaseDatabase.getInstance();
-//
-//        // Get reference to the "sensors" node in the JSON tree (See Firebase console for more info)
-//        mSensorMetaRef = mDatabase.getReference("users")
-//                .child(mUser.getUid()).child("sensors");
-//
-//        addDynamicSensorListener();
-//        ble_device_list_adapter = new ListAdapter();
-//        mActiveDevicesList = findViewById(R.id.active_devices);
-//        mActiveDevicesList.setAdapter();
-//        // Start BetaTesterActivity for the item (sensor) clicked
-//        mActiveDevicesList.setOnItemClickListener((adapterView, view, i, l) -> {
-//            String macAddress = (String) mActiveDevicesList.getItemAtPosition(i);
-//            switchToTesting(macAddress, this.type);
-//        });
-//        mInactiveDevicesList.setOnItemClickListener((adapterView, view, i, l) -> {
-//            String macAddress = (String) mInactiveDevicesList.getItemAtPosition(i);
-//            switchToTesting(macAddress, this.type);
-//        });
-//
-//        // Start or bind to the BLE background service
-//        Intent gattServiceIntent = new Intent(ListSensorActivity.this,
-//                BluetoothLeService.class);
-//        bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
+        initialize();
     }
 
     @Override
@@ -212,7 +95,6 @@ public class ListSensorActivity extends AppCompatActivity implements ScanResults
             public void run() {
                 ble_device_list_adapter.addDevice(device, scan_record);
                 ble_device_list_adapter.notifyDataSetChanged();
-                device_count++;
             }
         });
     }
@@ -229,15 +111,11 @@ public class ListSensorActivity extends AppCompatActivity implements ScanResults
 
     @Override
     public void scanningStopped() {
-        if (toast != null) {
-            toast.cancel();
-        }
         setScanState(false);
     }
 
     public void onScan(View view) {
         if (!ble_scanner.isScanning()) {
-            device_count=0;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
                         != PackageManager.PERMISSION_GRANTED) {
@@ -262,9 +140,9 @@ public class ListSensorActivity extends AppCompatActivity implements ScanResults
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION)){
             Log.i(Constants.TAG, "Displaying location permission rationale to provide additional context.");
             final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Permission Required");
-            builder.setMessage("Please grant Location access so this application can perform Bluetooth scanning");
-            builder.setPositiveButton(android.R.string.ok, null);
+            builder.setTitle(REQ_LOC_TITLE);
+            builder.setMessage(REQ_LOC_BODY);
+            builder.setPositiveButton(OK, null);
             builder.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 public void onDismiss(DialogInterface dialog) {
                     Log.d(Constants.TAG, "Requesting permissions after explanation");
@@ -297,12 +175,6 @@ public class ListSensorActivity extends AppCompatActivity implements ScanResults
         }
     }
 
-    private void simpleToast(String message, int duration) {
-        toast = Toast.makeText(this, message, duration);
-        toast.setGravity(Gravity.CENTER, 0, 0);
-        toast.show();
-    }
-
     private void startScanning() {
         if (permissions_granted) {
             runOnUiThread(new Runnable() {
@@ -312,48 +184,12 @@ public class ListSensorActivity extends AppCompatActivity implements ScanResults
                     ble_device_list_adapter.notifyDataSetChanged();
                 }
             });
-            simpleToast(Constants.SCANNING,2000);
+            ToasterService.makeToast(this, Constants.SCANNING,2000);
             ble_scanner.startScanning(this, SCAN_TIMEOUT);
         } else {
             Log.i(Constants.TAG, "Permission to perform Bluetooth scanning was not yet granted");
         }
     }
-//    /**
-//     * Listens for change in sensors list in FireDB (cloud)
-//     */
-//    private void addDynamicSensorListener() {
-//        sensorValueListener = new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                activeSensorNameList = new ArrayList<>();
-//                activeSensorAddressList = new ArrayList<>();
-//                inactiveSensorNameList = new ArrayList<>();
-//                inactiveSensorAddressList = new ArrayList<>();
-//
-//                // Get devices (from Firebase) and populate active and inactive device lists
-//                for (DataSnapshot uniqueKeySnapshot : dataSnapshot.getChildren()) {
-//                    String currentMac = uniqueKeySnapshot.child("macAddress").getValue(String.class);
-//                    if (CommonUtil.activeDevices.containsKey(currentMac)) {
-//                        activeSensorNameList
-//                                .add(uniqueKeySnapshot.child("name").getValue(String.class));
-//                        activeSensorAddressList
-//                                .add(currentMac);
-//                    } else {
-//                        inactiveSensorNameList
-//                                .add(uniqueKeySnapshot.child("name").getValue(String.class));
-//                        inactiveSensorAddressList
-//                                .add(uniqueKeySnapshot.child("macAddress").getValue(String.class));
-//                    }
-//                }
-//                showDeviceList();
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//            }
-//        };
-//        mSensorMetaRef.addValueEventListener(sensorValueListener);
-//    }
 
     private class ListAdapter extends BaseAdapter {
         private HashMap<BluetoothDevice, byte[]> ble_devices;
@@ -367,12 +203,11 @@ public class ListSensorActivity extends AppCompatActivity implements ScanResults
             if(device.getName() == null) {
                 return;
             }
-            final String regex = "TYRATA_([0-9])";
-            final String regex2 = "Nordic_([A-Za-z0-9])";
+
             final String string = device.getName();
 
-            final Pattern pattern = Pattern.compile(regex);
-            final Pattern pattern2 = Pattern.compile(regex2);
+            final Pattern pattern = Pattern.compile(TYRATA_REGEX);
+            final Pattern pattern2 = Pattern.compile(NORDIC_REGEX);
 
             final Matcher matcher = pattern.matcher(string);
             final Matcher matcher2 = pattern2.matcher(string);
@@ -526,5 +361,98 @@ public class ListSensorActivity extends AppCompatActivity implements ScanResults
             viewHolder.bdaddr.setText(device.address);
             return view;
         }
+    }
+
+    private void initialize() {
+        initVariables();
+        initLists();
+        initToolbar();
+        initDB();
+    }
+
+    private void initVariables() {
+        ble_scanner = new BleScanner(this.getApplicationContext());
+        ble_device_list_adapter = new ListAdapter();
+        inactive_device_list_adapter = new InactiveListAdapter();
+    }
+
+    private void initLists() {
+        ListView listView = (ListView) this.findViewById(R.id.active_devices);
+        listView.setAdapter(ble_device_list_adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                if (ble_scanning) {
+                    setScanState(false);
+                    ble_scanner.stopScanning();
+                }
+                BluetoothDevice device = ble_device_list_adapter.getDevice(position);
+                Intent intent;
+                intent = new Intent(ListSensorActivity.this, SensorDataActivity.class);
+                intent.putExtra(Constants.SENSOR_NAME, device.getName());
+                intent.putExtra(Constants.SENSOR_MAC, device.getAddress());
+                intent.putExtra(Constants.SENSOR_DATA, ble_device_list_adapter.getData(position));
+                startActivity(intent);
+            }
+        });
+
+        ListView inactiveListView = (ListView) this.findViewById(R.id.inactive_devices);
+        inactiveListView.setAdapter(inactive_device_list_adapter);
+        inactiveListView.setOnItemClickListener( new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                if (ble_scanning) {
+                    setScanState(false);
+                    ble_scanner.stopScanning();
+                }
+                InactiveDevice device = inactive_device_list_adapter.getDevice(position);
+                Intent intent;
+                intent = new Intent(ListSensorActivity.this, SensorDataActivity.class);
+                intent.putExtra(Constants.SENSOR_NAME, device.name);
+                intent.putExtra(Constants.SENSOR_MAC, device.address);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void initToolbar() {
+        // Setup the toolbar and back button
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new         Intent(getApplicationContext(), MainActivity.class));
+            }
+        });
+    }
+
+    private void initDB() {
+        db.collection(SENSOR_DB)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    inactive_device_list_adapter.clear();
+                                    inactive_device_list_adapter.notifyDataSetChanged();
+                                }
+                            });
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                inactive_device_list_adapter.add(document.get(SENSOR_NAME_DB).toString(), document.get(SENSOR_MAC_DB).toString());
+                                Log.d(TAG, document.getId() + " => " + document.get(SENSOR_NAME_DB).toString());
+                            }
+                        } else {
+                            Log.w(TAG, "Error getting documents.", task.getException());
+                        }
+                    }
+                });
     }
 }

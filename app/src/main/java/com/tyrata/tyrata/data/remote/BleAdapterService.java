@@ -334,7 +334,7 @@ public class BleAdapterService extends Service {
             sendConsoleMessage("writeCharacteristic: gattChar null");
             return false;
         }
-        System.out.println("Sending " + Arrays.toString(value));
+        System.out.println("Sending " + new String(value));
         gattChar.setValue(value);
         return bluetooth_gatt.writeCharacteristic(gattChar);
     }
