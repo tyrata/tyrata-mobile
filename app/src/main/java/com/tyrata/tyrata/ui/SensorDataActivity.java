@@ -413,7 +413,7 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
         if(!isAD7747) {
             try {
                 isAfterReading = true;
-                Thread.sleep(30000);
+                Thread.sleep(90000);
                 bluetooth_le_adapter.connect(device_address);
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -1019,7 +1019,7 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
         editName.setEnabled(true);
         findViewById(R.id.more_settings).setEnabled(true);
         try {
-            Thread.sleep(500);
+            Thread.sleep(700);
             bluetooth_le_adapter.setSensor(isAD7747 ? AD7747_ID : RF_ID);
             Thread.sleep(500);
             bluetooth_le_adapter.requestSensor();
