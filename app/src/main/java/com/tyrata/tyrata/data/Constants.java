@@ -5,6 +5,7 @@ public class Constants {
         public static final String FIND = "Scan For Sensors";
         public static final String STOP_SCANNING = "Stop Scanning";
         public static final String SCANNING = "Scanning";
+        public static final String READING = "Taking Reading";
 
         public static final String MODE = "mode";
         public static final String RF_MODE = "rf-mode";

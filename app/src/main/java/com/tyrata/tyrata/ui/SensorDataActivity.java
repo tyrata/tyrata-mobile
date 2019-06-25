@@ -413,6 +413,7 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
         if(!isAD7747) {
             try {
                 isAfterReading = true;
+                ToasterService.makeToast(this, Constants.READING,90000);
                 Thread.sleep(90000);
                 bluetooth_le_adapter.connect(device_address);
             } catch (InterruptedException e) {
@@ -995,7 +996,7 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
     }
 
     public void onExportData() {
-            Uri fileUri = getFormattedSensorData();
+        Uri fileUri = getFormattedSensorData();
         try {
             Intent intent = new Intent(Intent.ACTION_SENDTO);
             intent.setType("text/plain");
