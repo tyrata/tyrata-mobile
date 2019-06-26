@@ -38,7 +38,7 @@ public class Graph {
         mIsYinMm = false;
 
         // Set bounds manually (not automatic). Set in the activities that call this class
-        this.mGraphView.getViewport().setYAxisBoundsManual(true);
+        this.mGraphView.getViewport().setYAxisBoundsManual(false);
         this.mGraphView.getViewport().setXAxisBoundsManual(true);
 
         // Enable scaling (pinch to zoom) and scrolling
