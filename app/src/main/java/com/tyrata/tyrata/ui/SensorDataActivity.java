@@ -569,7 +569,7 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
                             .append(",")
                             .append(device_name)
                             .append(",")
-                            .append(reading.get("Frequency"))
+                            .append(reading.get("Frequency").trim())
                             .append(",")
                             .append(convertFreqToCap(reading.get("Frequency")))
                             .append(",")
