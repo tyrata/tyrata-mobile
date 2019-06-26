@@ -565,17 +565,17 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
                             .append(reading.get("Voltage"));
                 } else {
                     resultString.append("\n")
-                            .append(reading.get("Date"))
+                            .append(reading.get("Date").trim())
                             .append(",")
-                            .append(device_name)
+                            .append(device_name.trim())
                             .append(",")
                             .append(reading.get("Frequency").trim())
                             .append(",")
-                            .append(convertFreqToCap(reading.get("Frequency")))
+                            .append(convertFreqToCap(reading.get("Frequency").trim()))
                             .append(",")
-                            .append(reading.get("Temperature"))
+                            .append(reading.get("Temperature").trim())
                             .append(",")
-                            .append(reading.get("Voltage"));
+                            .append(reading.get("Voltage").trim());
                 }
             }
 
