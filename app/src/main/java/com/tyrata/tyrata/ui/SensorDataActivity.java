@@ -412,12 +412,16 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
         if(!isAD7747) {
             try {
                 isAfterReading = true;
+
+                 // Doesn't run, tablet crashes
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         ToasterService.makeToast(SensorDataActivity.this, Constants.READING,90000);
                     }
-                });Thread.sleep(90000);
+
+
+                });Thread.sleep(43000);
                 bluetooth_le_adapter.connect(device_address);
             } catch (InterruptedException e) {
                 e.printStackTrace();
