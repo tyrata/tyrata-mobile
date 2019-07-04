@@ -120,6 +120,15 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
+        android:id="@+id/sensor_selector"
+        android:layout_width="135dp"
+        android:layout_height="19dp"
+        android:layout_marginStart="20dp"
+        android:background="#F5E01B"
+        app:layout_constraintStart_toEndOf="@+id/is_connected"
+        app:layout_constraintTop_toTopOf="@+id/is_connected" />
+
+    <Spinner
         android:id="@+id/x-axis_selector"
         android:layout_width="192dp"
         android:layout_height="39dp"
@@ -359,6 +368,16 @@
         app:layout_constraintStart_toEndOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
+    <ImageView
+        android:id="@+id/imageView10"
+        android:layout_width="14dp"
+        android:layout_height="13dp"
+        android:layout_marginStart="120dp"
+        app:layout_constraintBottom_toBottomOf="@+id/sensor_selector"
+        app:layout_constraintStart_toStartOf="@+id/sensor_selector"
+        app:layout_constraintTop_toTopOf="@+id/sensor_selector"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/ic_down" />
     <!--<TextView-->
         <!--android:id="@+id/x_label"-->
         <!--android:layout_width="0dp"-->

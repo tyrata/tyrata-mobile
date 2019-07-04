@@ -22,6 +22,7 @@ import static com.tyrata.tyrata.util.CommonUtil.REQUEST_ENABLE_BT;
 /**
  * Main Activity - First screen displayed after logging in
  * Starts BLE Service and has buttons to enter MEASUREMENT and DEMO modes
+ * TODO: Change to something new. Maybe profile info or similar?
  */
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class MainActivity extends AppCompatActivity {
@@ -151,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void switchToList(String mode) {
-        SensorDataActivity.sensor_mode = mode;
+        // SensorDataActivity.sensor_mode = mode;
         Intent i = new Intent(MainActivity.this, ListSensorActivity.class);
         startActivity(i);
     }

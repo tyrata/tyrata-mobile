@@ -136,6 +136,9 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
     private static final String THIRTY_SECOND_OPT = "Take reading every 30s";
     private static final String SIXTY_SECOND_OPT = "Take reading every 60s";
 
+    private static final String RF_OPT = "RF";
+    private static final String AD7747_OPT = "AD7747";
+
     private static final int REQUEST_LOCATION = 0;
         //  private BluetoothLeService mBluetoothLeService
     private Graph mGraph;
@@ -151,7 +154,7 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
     public static BleAdapterService bluetooth_le_adapter;
     private ListAdapter readings_list_adapter;
     private String reading = "";
-    public static String sensor_mode;
+    public  String sensor_mode;
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private DocumentSnapshot active_sensor;
     private boolean isReadings;
@@ -288,6 +291,19 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
         }
     }
 
+    private void setSensorSpinner() {
+        Spinner spinner = findViewById(R.id.sensor_selector);
+        ImageView image = findViewById(R.id.imageView10);
+        if(bluetooth_le_adapter.isConnected()) {
+            spinner.setVisibility(View.VISIBLE);
+            image.setVisibility(View.VISIBLE);
+        } else {
+            spinner.setVisibility(View.INVISIBLE);
+            image.setVisibility(View.INVISIBLE);
+        }
+        createSensorSpinner();
+    }
+
         /**
          * Create a dropdown menu with options for setting data fetching time-interval
          * Eg. Selecting '10s' will get reading from sensor every 10sec
@@ -347,6 +363,47 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
             });
         }
 
+    /**
+     * Create a dropdown menu with options for setting data fetching time-interval
+     * Eg. Selecting '10s' will get reading from sensor every 10sec
+     */
+    private void createSensorSpinner() {
+        Spinner spinner = findViewById(R.id.sensor_selector);
+        ArrayList<String> options = new ArrayList<>();
+        options.add(RF_OPT);
+        options.add(AD7747_OPT);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_dropdown_item,
+                options);
+        spinner.setAdapter(adapter);
+
+        // Map total_ticks to the selected item in spinner
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                switch (i) {
+                    case 0:
+                        bluetooth_le_adapter.setSensor(RF_ID);
+                        isAD7747 = false;
+                        coll = RF_DB;
+                        setLabels();
+                        break;
+                    case 1:
+                        bluetooth_le_adapter.setSensor(AD7747_ID);
+                        isAD7747 = true;
+                        coll = AD7747_DB;
+                        setLabels();
+                        break;
+                    default:
+                        System.out.println("Shouldn't get here???");
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {}
+        });
+    }
     /**
      * Create a dropdown menu with options for setting data fetching time-interval
      * Eg. Selecting '10s' will get reading from sensor every 10sec
@@ -411,19 +468,8 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
         private void scan(){
             bluetooth_le_adapter.scan();
         if(!isAD7747) {
-            try {
                 isAfterReading = true;
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ToasterService.makeToast(SensorDataActivity.this, Constants.READING,90000);
-                    }
-                });Thread.sleep(90000);
                 bluetooth_le_adapter.connect(device_address);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                showMsg("InterruptedException");
-            }
         }
         }
 
@@ -1023,6 +1069,8 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
         View editName = findViewById(R.id.ic_settings);
         editName.setEnabled(true);
         findViewById(R.id.more_settings).setEnabled(true);
+        findViewById(R.id.sensor_selector).setVisibility(View.VISIBLE);
+        findViewById(R.id.imageView10).setVisibility(View.VISIBLE);
         try {
             Thread.sleep(700);
             bluetooth_le_adapter.setSensor(isAD7747 ? AD7747_ID : RF_ID);
@@ -1044,6 +1092,13 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
         if (back_requested) {
             SensorDataActivity.this.finish();
         }
+        ((Button) SensorDataActivity.this.findViewById(R.id.req_btn)).setEnabled(false);
+        ((TextView) findViewById(R.id.is_connected)).setText(NOT_CONNECTED);
+        View editName = findViewById(R.id.ic_settings);
+        editName.setEnabled(false);
+        findViewById(R.id.more_settings).setEnabled(false);
+        findViewById(R.id.sensor_selector).setVisibility(View.INVISIBLE);
+        findViewById(R.id.imageView10).setVisibility(View.INVISIBLE);
     }
 
     private void onServiceDiscovered() {
@@ -1272,12 +1327,14 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
     private void setSpinners() {
         createIntervalSpinner();
         createAxisSpinner();
+        setSensorSpinner();
     }
     private void setLists() {
         ListView listView = (ListView) this.findViewById(R.id.other_info);
         listView.setAdapter(readings_list_adapter);
     }
     private void initVariables() {
+            sensor_mode = isAD7747 ? Constants.AD7747_MODE : Constants.RF_MODE;
         isAD7747 = sensor_mode.equalsIgnoreCase(Constants.AD7747_MODE);
         coll = isAD7747 ? AD7747_DB : RF_DB;
         isReadings = true;

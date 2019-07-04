@@ -1,8 +1,11 @@
 package com.tyrata.tyrata.ui;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -44,6 +47,7 @@ import static com.tyrata.tyrata.data.Constants.OK;
 import static com.tyrata.tyrata.data.Constants.SENSOR_DB;
 import static com.tyrata.tyrata.data.Constants.SENSOR_MAC_DB;
 import static com.tyrata.tyrata.data.Constants.SENSOR_NAME_DB;
+import static com.tyrata.tyrata.util.CommonUtil.REQUEST_ENABLE_BT;
 
 /**
  * Displays a list of scanned sensors and handles click events
@@ -79,6 +83,9 @@ public class ListSensorActivity extends AppCompatActivity implements ScanResults
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sensor_list);
+        final BluetoothManager bluetoothManager =
+                (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+        assert bluetoothManager != null;
         initialize();
     }
 
@@ -86,6 +93,18 @@ public class ListSensorActivity extends AppCompatActivity implements ScanResults
     protected void onDestroy() {
         super.onDestroy();
         ble_scanner = null;
+    }
+
+    /**
+     * Handles output from Bluetooth's ACTION_REQUEST_ENABLE
+     * That is, called when "Turn on your bluetooth" dialog is accepted or cancelled
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // User chose not to enable Bluetooth.
+        if (requestCode == REQUEST_ENABLE_BT && resultCode == Activity.RESULT_CANCELED) return;
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
