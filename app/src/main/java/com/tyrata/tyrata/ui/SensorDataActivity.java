@@ -383,13 +383,18 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
 
                 switch (i) {
                     case 0:
-                        bluetooth_le_adapter.setSensor(RF_ID);
                         isAD7747 = false;
                         coll = RF_DB;
                         setLabels();
+                        if(bluetooth_le_adapter!=null) {
+                            bluetooth_le_adapter.setSensor(RF_ID)
+                        }
+
                         break;
                     case 1:
-                        bluetooth_le_adapter.setSensor(AD7747_ID);
+                        if(bluetooth_le_adapter!=null){
+                            bluetooth_le_adapter.setSensor(AD7747_ID);
+                        }
                         isAD7747 = true;
                         coll = AD7747_DB;
                         setLabels();
