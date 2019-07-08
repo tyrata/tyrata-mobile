@@ -293,7 +293,7 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
     private void setSensorSpinner() {
         Spinner spinner = findViewById(R.id.sensor_selector);
         ImageView image = findViewById(R.id.imageView10);
-        if(bluetooth_le_adapter.isConnected()) {
+        if(bluetooth_le_adapter != null && bluetooth_le_adapter.isConnected()) {
             spinner.setVisibility(View.VISIBLE);
             image.setVisibility(View.VISIBLE);
         } else {
