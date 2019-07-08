@@ -387,7 +387,7 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
                         coll = RF_DB;
                         setLabels();
                         if(bluetooth_le_adapter!=null) {
-                            bluetooth_le_adapter.setSensor(RF_ID)
+                            bluetooth_le_adapter.setSensor(RF_ID);
                         }
 
                         break;
