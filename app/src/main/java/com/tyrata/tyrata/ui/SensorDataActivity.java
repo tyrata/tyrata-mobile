@@ -994,8 +994,8 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
     }
 
     private void handleVoltageData(String s) {
-        String[] voltArr = s.split(" ");
-        String volts = voltArr[2];
+        String[] voltArr = s.split("=");
+        String volts = voltArr[1];
         int index = volts.indexOf("m");
         String voltageString = volts.substring(0, index);
         int voltage = Integer.parseInt(voltageString);

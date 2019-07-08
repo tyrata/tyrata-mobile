@@ -21,7 +21,7 @@ public class Commands {
     public static final String REQUEST_FREQ3OFFSET = "FREQ3OFFSET?";
     public static final String SET_FREQ4OFFSET = "FREQ3OFFSET=";
     public static final String REQUEST_FREQ4OFFSET = "FREQ3OFFSET?";
-    public static final String REQUEST_VOLTAGE = "BATTERY";
+    public static final String REQUEST_VOLTAGE = "BATTERY?";
     public static final String SET_BLETIMEOUT = "BLETIMEOUT=";
     public static final String REQUEST_BLETIMOUT = "BLETIMEOUT?";
     public static final String SET_FACTORY = "FACTORY";

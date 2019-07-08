@@ -103,24 +103,24 @@ public class FrequencySettingsActivity extends AppCompatActivity {
                     bluetooth_le_adapter.requestFreq2Inc();
                     break;
                 case R.id.third_pass:
-                    bluetooth_le_adapter.setFreq3Inc(text);
-                    bluetooth_le_adapter.requestFreq3Inc();
+                    //bluetooth_le_adapter.setFreq3Inc(text);
+                    //bluetooth_le_adapter.requestFreq3Inc();
                     break;
                 case R.id.fourth_pass:
-                    bluetooth_le_adapter.setFreq4Inc(text);
-                    bluetooth_le_adapter.requestFreq4Inc();
-                break;
+                    //bluetooth_le_adapter.setFreq4Inc(text);
+                    //bluetooth_le_adapter.requestFreq4Inc();
+                    break;
                 case R.id.freq2offset:
                     bluetooth_le_adapter.setFreq2Offset(text);
                     bluetooth_le_adapter.requestFreq2Offset();
                     break;
                 case R.id.freq3offset:
-                    bluetooth_le_adapter.setFreq3Offset(text);
-                    bluetooth_le_adapter.requestFreq3Offset();
+                   //bluetooth_le_adapter.setFreq3Offset(text);
+                   // bluetooth_le_adapter.requestFreq3Offset();
                     break;
                 case R.id.freq4offset:
-                    bluetooth_le_adapter.setFreq4Offset(text);
-                    bluetooth_le_adapter.requestFreq4Offset();
+                    //bluetooth_le_adapter.setFreq4Offset(text);
+                    //bluetooth_le_adapter.requestFreq4Offset();
                     break;
             }
             input.setText("");
@@ -133,12 +133,16 @@ public class FrequencySettingsActivity extends AppCompatActivity {
         bluetooth_le_adapter.requestFreqEnd();
         bluetooth_le_adapter.requestFreq1Inc();
         bluetooth_le_adapter.requestFreq2Inc();
+        bluetooth_le_adapter.requestFreq2Offset();
+        bluetooth_le_adapter.requestVoltage();
+
+        /*
+        // OLD Commands, no longer used
         bluetooth_le_adapter.requestFreq3Inc();
         bluetooth_le_adapter.requestFreq4Inc();
-        bluetooth_le_adapter.requestFreq2Offset();
         bluetooth_le_adapter.requestFreq3Offset();
         bluetooth_le_adapter.requestFreq4Offset();
-        bluetooth_le_adapter.requestVoltage();
+         */
     }
 
     /**
