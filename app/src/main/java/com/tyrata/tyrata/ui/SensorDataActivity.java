@@ -504,6 +504,7 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+
             double maxYP = -1;
             double minYP = 0.0;
             double maxYS = -1;
@@ -513,7 +514,7 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
                 int newDataPos = maxArr - i;
                 String val = (isAD7747 ? readings_list_adapter.getItem(i).get(AD7747_MAP_KEY) : convertFreqToCap(readings_list_adapter.getItem(i).get(RF_MAP_KEY))); //This is probably NOT efficient
                 if(val == null) {
-                    continue;
+                    return;
                 }
                 double measValue = Double.parseDouble( val == "Out of Range" ? "0.0" : val);
                 // double tempValue = Double.parseDouble(readings_list_adapter.getItem(i).get("Temperature"));
