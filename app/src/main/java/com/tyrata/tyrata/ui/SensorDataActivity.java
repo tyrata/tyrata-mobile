@@ -831,9 +831,6 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
 
                 double capNum = Math.pow(10, 12) * ((1/(Math.pow(2 * PI * freqNum, 2)))/(16.405 * Math.pow(10, -6)));
 
-                int tempNum = Integer.parseInt(temp.substring(0,5));
-                double tempDoub = milliConversion(tempNum, 1);
-
                 return capNum + "";
 
             } catch(Exception e) {
@@ -941,7 +938,6 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
         }else if(arr[0].contains("4")) {
             FrequencySettingsActivity.freq_4_inc.setText(arr[1] + "Hz");
         }
-
     }
 
     private void handleOffset(String s) {
