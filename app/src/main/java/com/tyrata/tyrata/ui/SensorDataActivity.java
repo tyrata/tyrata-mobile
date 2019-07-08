@@ -473,7 +473,13 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
             bluetooth_le_adapter.scan();
         if(!isAD7747) {
                 isAfterReading = true;
-                bluetooth_le_adapter.connect(device_address);
+                //ToasterService.makeToast(this, Constants.READING,20000);
+            try {
+                Thread.sleep(20000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            bluetooth_le_adapter.connect(device_address);
         }
         }
 
@@ -825,6 +831,9 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
 
                 double capNum = Math.pow(10, 12) * ((1/(Math.pow(2 * PI * freqNum, 2)))/(16.405 * Math.pow(10, -6)));
 
+                int tempNum = Integer.parseInt(temp.substring(0,5));
+                double tempDoub = milliConversion(tempNum, 1);
+
                 return capNum + "";
 
             } catch(Exception e) {
@@ -909,7 +918,7 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
     }
 
     private void handleHzData(String s) {
-            String[] arr = s.split(" = ");
+            String[] arr = s.split("=");
             String hz = arr[1];
             lastReading = new HashMap<>();
             lastReading.put("Frequency", hz);
@@ -965,9 +974,9 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
     }
 
     private void handleTempData(String s) {
-        String[] temps = s.split(" ");
-        String temp = temps[2];
-        int tempNum = Integer.parseInt(temp);
+        String[] temps = s.split("=");
+        String temp = temps[1];
+        int tempNum = Integer.parseInt(temp.substring(0,5));
         double tempDoub = milliConversion(tempNum, 1);
         if(isAfterReading) {
             lastReading.put(TEMP_MAP_KEY, tempDoub + "");
