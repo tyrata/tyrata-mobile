@@ -386,6 +386,7 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
                         isAD7747 = false;
                         coll = RF_DB;
                         setLabels();
+                        showGraph();
                         if(bluetooth_le_adapter!=null) {
                             bluetooth_le_adapter.setSensor(RF_ID);
                         }
@@ -398,6 +399,7 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
                         isAD7747 = true;
                         coll = AD7747_DB;
                         setLabels();
+                        showGraph();
                         break;
                     default:
                         System.out.println("Shouldn't get here???");
