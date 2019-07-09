@@ -477,7 +477,7 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
                 isAfterReading = true;
                 //ToasterService.makeToast(this, Constants.READING,20000);
             try {
-                Thread.sleep(20000);
+                Thread.sleep(18500);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
