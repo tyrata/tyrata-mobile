@@ -361,7 +361,10 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
                 public void onNothingSelected(AdapterView<?> adapterView) {}
             });
         }
-
+        private void resetData() {
+            readings_list_adapter.clear();
+            checkSensor();
+        }
     /**
      * Create a dropdown menu with options for setting data fetching time-interval
      * Eg. Selecting '10s' will get reading from sensor every 10sec
@@ -386,20 +389,20 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
                         isAD7747 = false;
                         coll = RF_DB;
                         setLabels();
-                        showGraph();
                         if(bluetooth_le_adapter!=null) {
                             bluetooth_le_adapter.setSensor(RF_ID);
+                            resetData();
                         }
 
                         break;
                     case 1:
-                        if(bluetooth_le_adapter!=null){
-                            bluetooth_le_adapter.setSensor(AD7747_ID);
-                        }
                         isAD7747 = true;
                         coll = AD7747_DB;
                         setLabels();
-                        showGraph();
+                        if(bluetooth_le_adapter!=null){
+                        bluetooth_le_adapter.setSensor(AD7747_ID);
+                        resetData();
+                        }
                         break;
                     default:
                         System.out.println("Shouldn't get here???");
