@@ -169,12 +169,11 @@ public class FrequencySettingsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        //TODO: Fix
+        //TODO: Test
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), SensorDataActivity.class);
-                startActivity(i);
+                finish();
             }
         });
     }

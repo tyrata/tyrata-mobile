@@ -287,9 +287,17 @@ public class AD7747SettingsActivity extends Activity {
     }
 
     private void setToolbar() {
-        setActionBar(new Toolbar(getApplicationContext()));
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setActionBar(toolbar);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setDisplayShowHomeEnabled(true);
+        //TODO: Test
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void setButtons() {
