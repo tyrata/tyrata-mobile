@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
@@ -14,7 +15,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toolbar;
+import android.support.v7.widget.Toolbar;
 
 import com.tyrata.tyrata.R;
 import com.tyrata.tyrata.data.remote.BleAdapterService;
@@ -29,7 +30,7 @@ import static com.tyrata.tyrata.data.Constants.SENSOR_NAME;
 import static com.tyrata.tyrata.data.Constants.YES;
 
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class AD7747SettingsActivity extends Activity {
+public class AD7747SettingsActivity extends AppCompatActivity {
     private final static String TAG = "Sensor Info";
 
     private final static String ZEROIZE_TITLE = "Are you sure?";
@@ -288,9 +289,9 @@ public class AD7747SettingsActivity extends Activity {
 
     private void setToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setActionBar(toolbar);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
-        getActionBar().setDisplayShowHomeEnabled(true);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         //TODO: Test
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
