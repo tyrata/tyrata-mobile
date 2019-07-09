@@ -939,10 +939,6 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
             FrequencySettingsActivity.freq_1_inc.setText(arr[1] + "Hz");
         } else if(arr[0].contains("2")) {
             FrequencySettingsActivity.freq_2_inc.setText(arr[1] + "Hz");
-        }else if(arr[0].contains("3")) {
-            FrequencySettingsActivity.freq_3_inc.setText(arr[1] + "Hz");
-        }else if(arr[0].contains("4")) {
-            FrequencySettingsActivity.freq_4_inc.setText(arr[1] + "Hz");
         }
     }
 
@@ -950,10 +946,6 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
         String[] arr = s.split("=");
         if(arr[0].contains("2")) {
             FrequencySettingsActivity.freq_2_offset.setText(arr[1] + "Hz");
-        }else if(arr[0].contains("3")) {
-            FrequencySettingsActivity.freq_3_offset.setText(arr[1] + "Hz");
-        }else if(arr[0].contains("4")) {
-            FrequencySettingsActivity.freq_4_offset.setText(arr[1] + "Hz");
         }
     }
 

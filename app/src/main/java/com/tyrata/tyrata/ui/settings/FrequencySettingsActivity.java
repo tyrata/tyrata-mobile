@@ -31,11 +31,7 @@ public class FrequencySettingsActivity extends AppCompatActivity {
     public static TextView freq_end;
     public static TextView freq_1_inc;
     public static TextView freq_2_inc;
-    public static TextView freq_3_inc;
-    public static TextView freq_4_inc;
     public static TextView freq_2_offset;
-    public static TextView freq_3_offset;
-    public static TextView freq_4_offset;
     public static TextView voltageVal;
 
     private ArrayList<TextInputEditText> inputValues;
@@ -102,25 +98,9 @@ public class FrequencySettingsActivity extends AppCompatActivity {
                     bluetooth_le_adapter.setFreq2Inc(text);
                     bluetooth_le_adapter.requestFreq2Inc();
                     break;
-                case R.id.third_pass:
-                    //bluetooth_le_adapter.setFreq3Inc(text);
-                    //bluetooth_le_adapter.requestFreq3Inc();
-                    break;
-                case R.id.fourth_pass:
-                    //bluetooth_le_adapter.setFreq4Inc(text);
-                    //bluetooth_le_adapter.requestFreq4Inc();
-                    break;
                 case R.id.freq2offset:
                     bluetooth_le_adapter.setFreq2Offset(text);
                     bluetooth_le_adapter.requestFreq2Offset();
-                    break;
-                case R.id.freq3offset:
-                   //bluetooth_le_adapter.setFreq3Offset(text);
-                   // bluetooth_le_adapter.requestFreq3Offset();
-                    break;
-                case R.id.freq4offset:
-                    //bluetooth_le_adapter.setFreq4Offset(text);
-                    //bluetooth_le_adapter.requestFreq4Offset();
                     break;
             }
             input.setText("");
@@ -169,12 +149,11 @@ public class FrequencySettingsActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        //TODO: Fix
+        //TODO: Test
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), SensorDataActivity.class);
-                startActivity(i);
+                finish();
             }
         });
     }
@@ -206,22 +185,14 @@ public class FrequencySettingsActivity extends AppCompatActivity {
         TextInputEditText endFreq = findViewById(R.id.freq_end);
         TextInputEditText firstPass = findViewById(R.id.first_pass);
         TextInputEditText secondPass =findViewById(R.id.second_pass);
-        TextInputEditText thirdPass = findViewById(R.id.third_pass);
-        TextInputEditText fourthPass = findViewById(R.id.fourth_pass);
         TextInputEditText offset2 = findViewById(R.id.freq2offset);
-        TextInputEditText offset3 = findViewById(R.id.freq3offset);
-        TextInputEditText offset4 = findViewById(R.id.freq4offset);
         inputValues = new ArrayList<>();
         inputValues.add(peaks);
         inputValues.add(startFreq);
         inputValues.add(endFreq);
         inputValues.add(firstPass);
         inputValues.add(secondPass);
-        inputValues.add(thirdPass);
-        inputValues.add(fourthPass);
         inputValues.add(offset2);
-        inputValues.add(offset3);
-        inputValues.add(offset4);
     }
 
     private void setLabels(){
@@ -230,11 +201,7 @@ public class FrequencySettingsActivity extends AppCompatActivity {
         freq_end = findViewById(R.id.freq_end_text);
         freq_1_inc = findViewById(R.id.first_pass_text);
         freq_2_inc = findViewById(R.id.second_pass_text);
-        freq_3_inc = findViewById(R.id.third_pass_text);
-        freq_4_inc = findViewById(R.id.fourth_pass_text);
         freq_2_offset = findViewById(R.id.offset2_text);
-        freq_3_offset = findViewById(R.id.offset3_text);
-        freq_4_offset = findViewById(R.id.offset4_text);
         voltageVal = findViewById(R.id.voltage_value_text);
     }
     //

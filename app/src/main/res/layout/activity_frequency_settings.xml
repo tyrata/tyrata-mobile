@@ -107,12 +107,11 @@
         android:id="@+id/update_values_btn"
         android:layout_width="163dp"
         android:layout_height="55dp"
-        android:layout_marginTop="12dp"
         android:layout_marginEnd="44dp"
         android:background="#F5E01B"
         android:text="Update Values"
         app:layout_constraintEnd_toStartOf="@+id/set_values_btn"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout20" />
+        tools:layout_editor_absoluteY="1183dp" />
 
     <Button
         android:id="@+id/ble_timeout_btn"
@@ -129,12 +128,11 @@
         android:id="@+id/set_values_btn"
         android:layout_width="163dp"
         android:layout_height="55dp"
-        android:layout_marginTop="12dp"
         android:layout_marginEnd="16dp"
         android:background="#F5E01B"
         android:text="Set Values"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout20" />
+        tools:layout_editor_absoluteY="1183dp" />
 
     <Button
         android:id="@+id/get_voltage_btn"
@@ -217,8 +215,8 @@
         android:id="@+id/textView23"
         android:layout_width="194dp"
         android:layout_height="0dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="88dp"
         android:text="FREQEND"
         android:textColor="#F5E01B"
         android:textSize="30sp"
@@ -230,8 +228,8 @@
         android:id="@+id/textView26"
         android:layout_width="202dp"
         android:layout_height="41dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="108dp"
         android:text="FREQ2OFFSET"
         android:textColor="#F5E01B"
         android:textSize="30sp"
@@ -240,12 +238,12 @@
         app:layout_constraintTop_toBottomOf="@+id/textView23" />
 
     <TextView
-        android:id="@+id/textView29"
-        android:layout_width="215dp"
-        android:layout_height="41dp"
+        android:id="@+id/textView36"
+        android:layout_width="227dp"
+        android:layout_height="42dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="44dp"
-        android:text="FREQ3OFFSET"
+        android:layout_marginTop="104dp"
+        android:text="FREQ1INC"
         android:textColor="#F5E01B"
         android:textSize="30sp"
         android:textStyle="bold"
@@ -253,69 +251,17 @@
         app:layout_constraintTop_toBottomOf="@+id/textView26" />
 
     <TextView
-        android:id="@+id/textView28"
-        android:layout_width="225dp"
-        android:layout_height="41dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="32dp"
-        android:text="FREQ4OFFSET"
-        android:textColor="#F5E01B"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView29" />
-
-    <TextView
-        android:id="@+id/textView36"
-        android:layout_width="227dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="84dp"
-        android:text="FREQ1INC"
-        android:textColor="#F5E01B"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView28" />
-
-    <TextView
         android:id="@+id/textView37"
         android:layout_width="224dp"
         android:layout_height="48dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="76dp"
         android:text="FREQ2INC"
         android:textColor="#F5E01B"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView36" />
-
-    <TextView
-        android:id="@+id/textView39"
-        android:layout_width="227dp"
-        android:layout_height="33dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="40dp"
-        android:text="FREQ3INC"
-        android:textColor="#F5E01B"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView37" />
-
-    <TextView
-        android:id="@+id/textView38"
-        android:layout_width="223dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="36dp"
-        android:text="FREQ4INC"
-        android:textColor="#F5E01B"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView39" />
 
     <TextView
         android:id="@+id/peaks_text"
@@ -347,8 +293,8 @@
         android:id="@+id/freq_end_text"
         android:layout_width="131dp"
         android:layout_height="38dp"
-        android:layout_marginStart="96dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="88dp"
+        android:layout_marginTop="92dp"
         android:text="--"
         android:textColor="#F5E01B"
         android:textSize="30sp"
@@ -360,8 +306,8 @@
         android:id="@+id/second_pass_text"
         android:layout_width="143dp"
         android:layout_height="38dp"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="84dp"
         android:text="--"
         android:textColor="#F5E01B"
         android:textSize="30sp"
@@ -370,50 +316,23 @@
         app:layout_constraintTop_toBottomOf="@+id/first_pass_text" />
 
     <TextView
-        android:id="@+id/third_pass_text"
-        android:layout_width="141dp"
-        android:layout_height="39dp"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="36dp"
-        android:text="--"
-        android:textColor="#F5E01B"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/textView39"
-        app:layout_constraintTop_toBottomOf="@+id/second_pass_text" />
-
-    <TextView
-        android:id="@+id/fourth_pass_text"
-        android:layout_width="142dp"
-        android:layout_height="36dp"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="36dp"
-        android:text="--"
-        android:textColor="#F5E01B"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/textView38"
-        app:layout_constraintTop_toBottomOf="@+id/third_pass_text" />
-
-    <TextView
         android:id="@+id/voltage_value_text"
         android:layout_width="91dp"
         android:layout_height="41dp"
-        android:layout_marginStart="116dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginStart="100dp"
         android:text="--"
         android:textColor="#F5E01B"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/get_voltage_btn"
-        app:layout_constraintTop_toBottomOf="@+id/fourth_pass_text" />
+        tools:layout_editor_absoluteY="1183dp" />
 
     <TextView
         android:id="@+id/offset2_text"
         android:layout_width="133dp"
         android:layout_height="36dp"
-        android:layout_marginStart="88dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginStart="76dp"
+        android:layout_marginTop="116dp"
         android:text="--"
         android:textColor="#F5E01B"
         android:textSize="30sp"
@@ -422,43 +341,16 @@
         app:layout_constraintTop_toBottomOf="@+id/freq_end_text" />
 
     <TextView
-        android:id="@+id/offset3_text"
-        android:layout_width="139dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="68dp"
-        android:layout_marginTop="44dp"
-        android:text="--"
-        android:textColor="#F5E01B"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/textView29"
-        app:layout_constraintTop_toBottomOf="@+id/offset2_text" />
-
-    <TextView
-        android:id="@+id/offset4_text"
-        android:layout_width="140dp"
-        android:layout_height="38dp"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="36dp"
-        android:text="--"
-        android:textColor="#F5E01B"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/textView28"
-        app:layout_constraintTop_toBottomOf="@+id/offset3_text" />
-
-    <TextView
         android:id="@+id/first_pass_text"
         android:layout_width="146dp"
         android:layout_height="42dp"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="88dp"
+        android:layout_marginStart="44dp"
         android:text="--"
         android:textColor="#F5E01B"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/textView36"
-        app:layout_constraintTop_toBottomOf="@+id/offset4_text" />
+        app:layout_constraintTop_toTopOf="@+id/textView36" />
 
     <TextView
         android:id="@+id/textView18"
@@ -477,7 +369,7 @@
         android:id="@+id/textInputLayout"
         android:layout_width="159dp"
         android:layout_height="63dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="52dp"
         android:layout_marginEnd="160dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout7">
@@ -502,10 +394,9 @@
         android:id="@+id/textInputLayout2"
         android:layout_width="159dp"
         android:layout_height="63dp"
-        android:layout_marginTop="72dp"
-        android:layout_marginEnd="160dp"
+        android:layout_marginEnd="148dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout6">
+        app:layout_constraintTop_toTopOf="@+id/first_pass_text">
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/first_pass"
@@ -518,8 +409,8 @@
         android:id="@+id/textInputLayout3"
         android:layout_width="159dp"
         android:layout_height="63dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="160dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="148dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
 
@@ -531,43 +422,11 @@
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/textInputLayout22"
-        android:layout_width="159dp"
-        android:layout_height="63dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="160dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout3">
-
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/third_pass"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="3rd Pass Inc" />
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/textInputLayout20"
-        android:layout_width="159dp"
-        android:layout_height="63dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="160dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout22">
-
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/fourth_pass"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="4th Pass Inc" />
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
         android:id="@+id/textInputLayout4"
         android:layout_width="159dp"
         android:layout_height="63dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="160dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginEnd="168dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
 
@@ -576,38 +435,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="FREQ2Offset" />
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/textInputLayout5"
-        android:layout_width="159dp"
-        android:layout_height="63dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="160dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout4">
-
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/freq3offset"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="FREQ3Offset" />
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/textInputLayout6"
-        android:layout_width="159dp"
-        android:layout_height="63dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="160dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout5">
-
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/freq4offset"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="FREQ4Offset" />
     </android.support.design.widget.TextInputLayout>
 
 </android.support.constraint.ConstraintLayout>
