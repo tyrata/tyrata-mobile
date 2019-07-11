@@ -811,9 +811,9 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
                 view = SensorDataActivity.this.getLayoutInflater().inflate(R.layout.item_sensor, null);
                 viewHolder = new SensorDataActivity.ViewHolder();
                 if(!isPhone){
-                    viewHolder.time = (TextView) view.findViewById(R.id.data_time);
+                    viewHolder.temp = (TextView) view.findViewById(R.id.data_temperature);
                 }
-                viewHolder.temp = (TextView) view.findViewById(R.id.data_temperature);
+                viewHolder.time = (TextView) view.findViewById(R.id.data_time);
                 viewHolder.capacitance = (TextView) view.findViewById(R.id.data_capacitance);
                 viewHolder.frequency = (TextView) view.findViewById(R.id.data_frequency);
                 viewHolder.voltage = (TextView) view.findViewById(R.id.data_voltage);
@@ -823,9 +823,9 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
                 viewHolder = (SensorDataActivity.ViewHolder) view.getTag();
             }
             if(!isPhone){
-                viewHolder.time.setText(readings.get(i).get(DATE_MAP_KEY));
+                viewHolder.temp.setText(readings.get(i).get(TEMP_MAP_KEY));
             }
-            viewHolder.temp.setText(readings.get(i).get(TEMP_MAP_KEY));
+            viewHolder.time.setText(readings.get(i).get(DATE_MAP_KEY));
             viewHolder.voltage.setText(readings.get(i).get(VOLTAGE_MAP_KEY));
 
             if(isAD7747) {
