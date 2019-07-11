@@ -21,25 +21,25 @@
         android:layout_marginLeft="10dp"
         android:layout_weight="1"
         android:textColor="@color/white"
-        android:textSize="15sp" />
+        android:textSize="10sp" />
 
     <TextView
         android:id="@+id/data_frequency"
-        android:layout_width="0dp"
+        android:layout_width="53dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="end"
         android:textColor="@color/white"
-        android:textSize="15sp" />
+        android:textSize="10sp" />
 
     <TextView
         android:id="@+id/data_capacitance"
-        android:layout_width="0dp"
+        android:layout_width="56dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="end"
         android:textColor="@color/white"
-        android:textSize="15sp" />
+        android:textSize="10sp" />
 
     <TextView
         android:id="@+id/data_voltage"
@@ -48,16 +48,6 @@
         android:layout_marginRight="10dp"
         android:layout_weight="1"
         android:gravity="end"
-        android:textColor="@color/white"
-        android:textSize="15sp" />
-
-    <TextView
-        android:id="@+id/data_temperature"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:gravity="end"
-        android:layout_marginRight="10dp"
         android:textColor="@color/white"
         android:textSize="15sp" />
 

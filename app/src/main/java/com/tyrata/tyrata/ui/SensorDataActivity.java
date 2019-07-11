@@ -810,7 +810,9 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
             if (view == null) {
                 view = SensorDataActivity.this.getLayoutInflater().inflate(R.layout.item_sensor, null);
                 viewHolder = new SensorDataActivity.ViewHolder();
-                viewHolder.time = (TextView) view.findViewById(R.id.data_time);
+                if(!isPhone){
+                    viewHolder.time = (TextView) view.findViewById(R.id.data_time);
+                }
                 viewHolder.temp = (TextView) view.findViewById(R.id.data_temperature);
                 viewHolder.capacitance = (TextView) view.findViewById(R.id.data_capacitance);
                 viewHolder.frequency = (TextView) view.findViewById(R.id.data_frequency);
@@ -820,8 +822,9 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
             } else {
                 viewHolder = (SensorDataActivity.ViewHolder) view.getTag();
             }
-
-            viewHolder.time.setText(readings.get(i).get(DATE_MAP_KEY));
+            if(!isPhone){
+                viewHolder.time.setText(readings.get(i).get(DATE_MAP_KEY));
+            }
             viewHolder.temp.setText(readings.get(i).get(TEMP_MAP_KEY));
             viewHolder.voltage.setText(readings.get(i).get(VOLTAGE_MAP_KEY));
 
