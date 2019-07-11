@@ -1339,7 +1339,9 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
 
     private void setSpinners() {
         createIntervalSpinner();
-        createAxisSpinner();
+        if(!isPhone){
+            createAxisSpinner();
+        }
         setSensorSpinner();
     }
     private void setLists() {
