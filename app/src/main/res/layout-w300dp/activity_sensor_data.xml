@@ -167,7 +167,7 @@
 
     <ListView
         android:id="@+id/other_info"
-        android:layout_width="391dp"
+        android:layout_width="363dp"
         android:layout_height="197dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
@@ -247,12 +247,12 @@
     <TextView
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
+        android:layout_height="13dp"
+        android:layout_marginEnd="8dp"
         android:text="Timestamp"
         android:textColor="@color/white"
         android:textSize="10dp"
-        app:layout_constraintStart_toEndOf="@+id/cap_text"
+        app:layout_constraintEnd_toStartOf="@+id/freq_text"
         app:layout_constraintTop_toTopOf="@+id/textView15" />
 
     <TextView
@@ -269,42 +269,36 @@
 
     <TextView
         android:id="@+id/textView15"
-        android:layout_width="92dp"
+        android:layout_width="60dp"
         android:layout_height="15dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="12dp"
-        android:layout_marginEnd="8dp"
-        android:text="Battery Voltage (V)"
+        android:layout_marginEnd="16dp"
+        android:text="Voltage (V)"
         android:textColor="@color/white"
         android:textSize="10dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.4"
-        app:layout_constraintStart_toEndOf="@+id/textView9"
         app:layout_constraintTop_toBottomOf="@+id/more_settings" />
 
     <TextView
         android:id="@+id/cap_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="152dp"
+        android:layout_marginEnd="8dp"
         android:text="Capacitance (pF)"
         android:textColor="@color/white"
         android:textSize="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.464"
-        app:layout_constraintStart_toEndOf="@+id/freq_text"
+        app:layout_constraintEnd_toStartOf="@+id/textView15"
         app:layout_constraintTop_toTopOf="@+id/textView9" />
 
     <TextView
         android:id="@+id/freq_text"
         android:layout_width="74dp"
         android:layout_height="14dp"
-        android:layout_marginStart="88dp"
+        android:layout_marginEnd="8dp"
         android:text="Frequency (Hz)"
         android:textColor="@color/white"
         android:textSize="10dp"
-        app:layout_constraintStart_toStartOf="@+id/other_info"
+        app:layout_constraintEnd_toStartOf="@+id/cap_text"
         app:layout_constraintTop_toTopOf="@+id/cap_text" />
 
     <ImageView
