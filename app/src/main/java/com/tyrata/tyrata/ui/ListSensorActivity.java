@@ -83,9 +83,11 @@ public class ListSensorActivity extends AppCompatActivity implements ScanResults
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sensor_list);
-
-        isPhone = this.findViewById(android.R.id.content).getRootView().getTag().equals("small-screen");
-        System.out.println(this.findViewById(android.R.id.content).getRootView().getTag());
+        System.out.println(this.findViewById(android.R.id.content));
+        System.out.println(this.findViewById(android.R.id.content).getRootView());
+        System.out.println(this.getWindow().getDecorView().findViewById(android.R.id.content));
+        isPhone = this.findViewById(android.R.id.content).getTag().equals("small-screen");
+        System.out.println(this.findViewById(android.R.id.content).getTag());
         final BluetoothManager bluetoothManager =
                 (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
         assert bluetoothManager != null;
