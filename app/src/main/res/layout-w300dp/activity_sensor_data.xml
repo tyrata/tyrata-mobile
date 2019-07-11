@@ -26,7 +26,7 @@
         android:layout_marginTop="84dp"
         android:text="SENSOR INFO"
         android:textColor="#F5E01B"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -39,7 +39,7 @@
         android:layout_marginTop="120dp"
         android:text="Unknown Name"
         android:textColor="#F5E01B"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -65,7 +65,7 @@
         android:layout_marginTop="156dp"
         android:text="Unknown Address"
         android:textColor="#F5E01B"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -78,7 +78,7 @@
         android:layout_marginTop="120dp"
         android:text="Device Name:"
         android:textColor="#F5E01B"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -91,7 +91,7 @@
         android:layout_marginTop="156dp"
         android:text="Device Address:"
         android:textColor="#F5E01B"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -103,7 +103,7 @@
         android:layout_marginTop="196dp"
         android:text="DATA"
         android:textColor="#F5E01B"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -115,10 +115,10 @@
         android:layout_width="167dp"
         android:layout_height="47dp"
         android:layout_marginStart="28dp"
-        android:layout_marginTop="292dp"
+        android:layout_marginTop="8dp"
         android:background="#F5E01B"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/req_btn" />
 
     <Spinner
         android:id="@+id/sensor_selector"
@@ -129,24 +129,16 @@
         app:layout_constraintStart_toEndOf="@+id/is_connected"
         app:layout_constraintTop_toTopOf="@+id/is_connected" />
 
-    <Spinner
-        android:id="@+id/x-axis_selector"
-        android:layout_width="192dp"
-        android:layout_height="39dp"
-        android:layout_marginStart="28dp"
-        android:background="#F5E01B"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="246dp" />
     <Button
         android:id="@+id/req_btn"
-        android:layout_width="365dp"
-        android:layout_height="53dp"
-        android:layout_marginTop="232dp"
-        android:layout_marginEnd="16dp"
+        android:layout_width="282dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="64dp"
         android:background="#F5E01B"
         android:text="GET READING"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/collected_data_text" />
 
     <!--<Button-->
     <!--android:id="@+id/pair_btn"-->
@@ -162,19 +154,19 @@
 
     <Button
         android:id="@+id/more_settings"
-        android:layout_width="152dp"
-        android:layout_height="47dp"
-        android:layout_marginTop="292dp"
+        android:layout_width="154dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
         android:background="#F5E01B"
         android:text="Settings"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/req_btn" />
 
     <ListView
         android:id="@+id/other_info"
-        android:layout_width="407dp"
-        android:layout_height="196dp"
+        android:layout_width="391dp"
+        android:layout_height="197dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
@@ -187,36 +179,38 @@
 
     <Button
         android:id="@+id/clear_data"
-        android:layout_width="192dp"
+        android:layout_width="149dp"
         android:layout_height="49dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="92dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="20dp"
         android:background="#F5E01B"
         android:text="Clear collected data"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/other_info" />
 
     <Button
         android:id="@+id/share_btn"
-        android:layout_width="189dp"
-        android:layout_height="49dp"
-        android:layout_marginEnd="12dp"
-        android:layout_marginBottom="92dp"
+        android:layout_width="161dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
         android:background="#F5E01B"
         android:text="EXPORT COLLECTED DATA"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/other_info"
+        tools:layout_editor_absoluteX="226dp" />
 
     <Button
         android:id="@+id/reset_sensor"
-        android:layout_width="375dp"
-        android:layout_height="56dp"
-        android:layout_marginStart="20dp"
+        android:layout_width="284dp"
+        android:layout_height="47dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="28dp"
         android:background="#F5E01B"
         android:text="FACTORY RESET"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/share_btn"
+        app:layout_constraintVertical_bias="0.125" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline_toolbar"
@@ -250,13 +244,13 @@
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="264dp"
-        android:layout_marginTop="360dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="4dp"
         android:text="Timestamp"
         android:textColor="@color/white"
         android:textSize="10dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/cap_text"
+        app:layout_constraintTop_toTopOf="@+id/textView15" />
 
     <TextView
         android:id="@+id/textView14"
@@ -274,36 +268,41 @@
         android:id="@+id/textView15"
         android:layout_width="92dp"
         android:layout_height="15dp"
-        android:layout_marginTop="360dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:text="Battery Voltage (V)"
         android:textColor="@color/white"
         android:textSize="10dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.153"
+        app:layout_constraintStart_toEndOf="@+id/textView9"
+        app:layout_constraintTop_toBottomOf="@+id/more_settings" />
 
     <TextView
         android:id="@+id/cap_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="360dp"
+        android:layout_marginStart="8dp"
         android:layout_marginEnd="152dp"
         android:text="Capacitance (pF)"
         android:textColor="@color/white"
         android:textSize="10dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.464"
+        app:layout_constraintStart_toEndOf="@+id/freq_text"
+        app:layout_constraintTop_toTopOf="@+id/textView9" />
 
     <TextView
         android:id="@+id/freq_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="360dp"
-        android:layout_marginEnd="240dp"
+        android:layout_width="74dp"
+        android:layout_height="14dp"
+        android:layout_marginStart="88dp"
         android:text="Frequency (Hz)"
         android:textColor="@color/white"
         android:textSize="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/other_info"
+        app:layout_constraintTop_toTopOf="@+id/cap_text" />
 
     <ImageView
         android:id="@+id/imageView8"
@@ -317,21 +316,11 @@
         app:srcCompat="@drawable/ic_down" />
 
     <ImageView
-        android:id="@+id/imageView9"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="192dp"
-        app:layout_constraintBottom_toBottomOf="@+id/x-axis_selector"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/x-axis_selector"
-        app:layout_constraintVertical_bias="0.736"
-        app:srcCompat="@drawable/ic_down" />
-
-    <ImageView
         android:id="@+id/ic_settings"
         android:layout_width="26dp"
         android:layout_height="33dp"
         android:layout_gravity="center"
+        android:layout_marginStart="16dp"
         android:onClick="editName"
         android:src="@drawable/ic_settings"
         app:layout_constraintStart_toEndOf="@+id/textView2"
