@@ -29,8 +29,8 @@
 
     <ListView
         android:id="@+id/inactive_devices"
-        android:layout_width="345dp"
-        android:layout_height="253dp"
+        android:layout_width="336dp"
+        android:layout_height="181dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -71,10 +71,10 @@
 
     <Button
         android:id="@+id/devBeta_btn"
-        android:layout_width="483dp"
-        android:layout_height="103dp"
-        android:layout_marginStart="168dp"
-        android:layout_marginTop="1020dp"
+        android:layout_width="219dp"
+        android:layout_height="49dp"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="604dp"
         android:background="#F5E01B"
         android:onClick="onScan"
         android:text="Scan For Sensors"
