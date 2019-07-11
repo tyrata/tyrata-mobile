@@ -160,7 +160,10 @@ public class FrequencySettingsActivity extends AppCompatActivity {
 
     private void setButtons(){
         Button voltageBtn = findViewById(R.id.get_voltage_btn);
-        voltageBtn.setOnClickListener(view -> bluetooth_le_adapter.requestVoltage());
+        voltageBtn.setOnClickListener(view -> {
+            bluetooth_le_adapter.requestVoltage();
+            SensorDataActivity.isAfterReading = false;
+        });
 
         Button updateBtn = findViewById(R.id.update_values_btn);
             updateBtn.setOnClickListener(view -> {

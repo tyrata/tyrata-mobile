@@ -57,7 +57,7 @@ public class ListSensorActivity extends AppCompatActivity implements ScanResults
     private final static String TAG = "BLE Device List";
     private final static String REQ_LOC_TITLE = "Permission Required";
     private final static String REQ_LOC_BODY = "Please grant Location access so this application can perform Bluetooth scanning";
-
+    public static boolean isPhone;
     private final static String TYRATA_REGEX = "TYRATA_([0-9])";
     private final static String NORDIC_REGEX = "Nordic_([A-Za-z0-9])";
     private boolean ble_scanning = false;
@@ -83,6 +83,12 @@ public class ListSensorActivity extends AppCompatActivity implements ScanResults
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sensor_list);
+        View rootView = null;
+        View currentFocus = getWindow().getCurrentFocus();
+        if (currentFocus != null)
+            rootView = currentFocus.getRootView();
+
+        isPhone = rootView.getTag().equals("small-screen");
         final BluetoothManager bluetoothManager =
                 (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
         assert bluetoothManager != null;

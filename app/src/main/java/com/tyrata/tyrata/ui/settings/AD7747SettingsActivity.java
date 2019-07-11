@@ -174,6 +174,7 @@ public class AD7747SettingsActivity extends AppCompatActivity {
     // On temp button clicked
     private void updateVoltage() {
         bluetooth_le_adapter.requestVoltage();
+        SensorDataActivity.isAfterReading = false;
     }
 
     private void updateTemp() {

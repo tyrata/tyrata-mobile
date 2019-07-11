@@ -158,7 +158,8 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
     private DocumentSnapshot active_sensor;
     private boolean isReadings;
     private boolean isAD7747;
-    private boolean isAfterReading;
+    private boolean isPhone;
+    public static boolean isAfterReading;
 
     String coll;
 
@@ -225,9 +226,8 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_sensor_data);
-
+            isPhone = ListSensorActivity.isPhone;
             initialize();
-
     }
 
 
@@ -477,14 +477,14 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
         private void scan(){
             bluetooth_le_adapter.scan();
         if(!isAD7747) {
-                isAfterReading = true;
+//                isAfterReading = true;
                 //ToasterService.makeToast(this, Constants.READING,20000);
-            try {
-                Thread.sleep(18500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            bluetooth_le_adapter.connect(device_address);
+//            try {
+//                Thread.sleep(18500);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//            bluetooth_le_adapter.connect(device_address);
         }
         }
 
@@ -492,6 +492,9 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
          * Create visual data-points using the fetched data and call Graph object to display the graph
          */
         private void showGraph() {
+            if(isPhone) {
+                return;
+            }
             mGraph.removeAllSeries();
             mGraph.setXAxisTitle(isReadings ? READINGS : TIME);
             int dataCount = readings_list_adapter.getCount();
@@ -896,7 +899,7 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
         // TODO: Fix this shitty tree
         if(s.contains("7747") && !s.contains("pf")) {
             handleRegData(s);
-        } else if(s.contains("pf")) {
+        } else if(s.contains("pF") || (s.contains("Time") && s.contains("C")) || (s.contains("C") && s.contains("V"))) {
             getDataFromReading(s);
         } else if(s.contains("TIME")) {
             handleTimeData(s);
@@ -1359,6 +1362,9 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
     }
 
     private void initGraph() {
+            if(isPhone){
+                return;
+            }
         GraphView graphView = findViewById(R.id.graph_beta);
         mGraph = new Graph(graphView, READINGS, (isAD7747  ? CAPACITANCE_LABEL : FREQUENCY_LABEL), "");
         //mGraph.addSecondaryAxis("Temperature (C)");
@@ -1389,8 +1395,10 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
         Button clr_btn = findViewById(R.id.clear_data);
         clr_btn.setOnClickListener(view -> clearData());
         // Redraw graph
-        ImageView resetGraphBtn = findViewById(R.id.reset_graph);
-        resetGraphBtn.setOnClickListener(view -> showGraph());
+        if(!isPhone) {
+            ImageView resetGraphBtn = findViewById(R.id.reset_graph);
+            resetGraphBtn.setOnClickListener(view -> showGraph());
+        }
 
         Button share_btn = findViewById(R.id.share_btn);
         share_btn.setOnClickListener(view -> onExportData());

@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#404040"
+    tools:context="com.tyrata.tyrata.ui.MainActivity">
+
+    <TextView
+        android:id="@+id/device_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="604dp"
+        android:layout_marginTop="196dp"
+        android:text="Unknown Address"
+        android:textColor="#F5E01B"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/device_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="624dp"
+        android:layout_marginTop="156dp"
+        android:text="Unknown Name"
+        android:textColor="#F5E01B"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_toolbar3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.08" />
+
+    <TextView
+        android:id="@+id/textView27"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="156dp"
+        android:text="Device Name:"
+        android:textColor="#F5E01B"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView28"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="196dp"
+        android:text="Device Address:"
+        android:textColor="#F5E01B"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_scalable"
+        android:layout_width="815dp"
+        android:layout_height="106dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/read_register_btn"
+        android:layout_width="267dp"
+        android:layout_height="77dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="348dp"
+        android:background="#F5E01B"
+        android:text="Read Register"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/set_register_btn"
+        android:layout_width="267dp"
+        android:layout_height="77dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="464dp"
+        android:background="#F5E01B"
+        android:text="Set Register"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/read_capDacA_btn"
+        android:layout_width="193dp"
+        android:layout_height="77dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="996dp"
+        android:background="#F5E01B"
+        android:text="Read CapDac A"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/set_capDacA_btn"
+        android:layout_width="193dp"
+        android:layout_height="77dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="1112dp"
+        android:background="#F5E01B"
+        android:text="Set CapDac A"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/zero_cap_btn"
+        android:layout_width="267dp"
+        android:layout_height="77dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="600dp"
+        android:background="#F5E01B"
+        android:text="Zero Capacitance"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/get_voltage_btn"
+        android:layout_width="267dp"
+        android:layout_height="77dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="728dp"
+        android:background="#F5E01B"
+        android:text="Get Voltage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/get_temperature_btn"
+        android:layout_width="267dp"
+        android:layout_height="77dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="872dp"
+        android:background="#F5E01B"
+        android:text="Get Temperature"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/update_values_btn"
+        android:layout_width="327dp"
+        android:layout_height="104dp"
+        android:layout_marginStart="436dp"
+        android:layout_marginTop="1120dp"
+        android:background="#F5E01B"
+        android:text="Update Values"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="368dp"
+        android:layout_marginTop="116dp"
+        android:text="SENSOR INFO"
+        android:textColor="#F5E01B"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="116dp"
+        android:layout_marginTop="300dp"
+        android:text="SETTINGS"
+        android:textColor="#F5E01B"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView16"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="612dp"
+        android:layout_marginTop="308dp"
+        android:text="Last Value"
+        android:textColor="#F5E01B"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView29"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="456dp"
+        android:layout_marginTop="484dp"
+        android:text="Last Read Value: "
+        android:textColor="#F5E01B"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView31"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="256dp"
+        android:layout_marginTop="1008dp"
+        android:text="Last Read Cap Dac A Value"
+        android:textColor="#F5E01B"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView30"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="436dp"
+        android:layout_marginTop="368dp"
+        android:text="Last Read Register: "
+        android:textColor="#F5E01B"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/capdacA_value"
+        android:layout_width="wrap_content"
+        android:layout_height="58dp"
+        android:layout_marginTop="1052dp"
+        android:layout_marginEnd="412dp"
+        android:text="--"
+        android:textColor="#F5E01B"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/temp_value"
+        android:layout_width="wrap_content"
+        android:layout_height="58dp"
+        android:layout_marginTop="872dp"
+        android:layout_marginEnd="124dp"
+        android:text="--"
+        android:textColor="#F5E01B"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/voltage_value"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="744dp"
+        android:layout_marginEnd="124dp"
+        android:text="--"
+        android:textColor="#F5E01B"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/zero_cap_value"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="620dp"
+        android:layout_marginEnd="124dp"
+        android:text="--"
+        android:textColor="#F5E01B"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/register_value"
+        android:layout_width="wrap_content"
+        android:layout_height="53dp"
+        android:layout_marginTop="360dp"
+        android:layout_marginEnd="124dp"
+        android:text="--"
+        android:textColor="#F5E01B"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/set_register_value"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="476dp"
+        android:layout_marginEnd="124dp"
+        android:text="--"
+        android:textColor="#F5E01B"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Switch
+        android:id="@+id/sleep_toggle"
+        android:layout_width="194dp"
+        android:layout_height="65dp"
+        android:layout_marginStart="588dp"
+        android:layout_marginTop="1008dp"
+        android:text="Sleep"
+        android:textColor="#F5E01B"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>
