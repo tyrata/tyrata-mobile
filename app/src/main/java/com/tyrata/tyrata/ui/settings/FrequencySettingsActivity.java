@@ -9,13 +9,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tyrata.tyrata.R;
 import com.tyrata.tyrata.data.Constants;
 import com.tyrata.tyrata.data.remote.BleAdapterService;
+import com.tyrata.tyrata.ui.ListSensorActivity;
 import com.tyrata.tyrata.ui.SensorDataActivity;
 
 import java.util.ArrayList;
@@ -25,6 +29,9 @@ public class FrequencySettingsActivity extends AppCompatActivity {
     private final static String TAG = "Sensor Info";
     private final static String BLETIMEOUT_TOAST_TEXT = "Setting BLETIMEOUT to 2 hours...";
     private final static String RESET_SENSOR_TOAST_TEXT = "Resetting sensor...";
+    private final static String A_OPT = "A";
+    private final static String B_OPT = "B";
+    private final static String FRANKLIN_OPT = "Franklin";
 
     public static TextView peaks;
     public static TextView freq_start;
@@ -134,8 +141,43 @@ public class FrequencySettingsActivity extends AppCompatActivity {
         setButtons();
         setInputs();
         setLabels();
+        setSpinner();
     }
 
+    private void setSpinner() {
+        Spinner spinner = findViewById(R.id.settings_selector);
+        ArrayList<String> options = new ArrayList<>();
+        options.add(A_OPT);
+        options.add(B_OPT);
+        options.add(FRANKLIN_OPT);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_dropdown_item,
+                options);
+        spinner.setAdapter(adapter);
+
+        // Map total_ticks to the selected item in spinner
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i) {
+                    case 0:
+                        sendA();
+                        break;
+                    case 1:
+                        sendB();
+                        break;
+                    case 2:
+                        sendFranklin();
+                        break;
+                    default:
+                        // Do Nothing
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {}
+        });
+    }
     private void setDeviceData() {
         final Intent intent = getIntent();
         device_name = intent.getStringExtra(Constants.SENSOR_NAME);
@@ -208,4 +250,45 @@ public class FrequencySettingsActivity extends AppCompatActivity {
         voltageVal = findViewById(R.id.voltage_value_text);
     }
     //
+    private void sendA() {
+        bluetooth_le_adapter.setPeaks("1");
+        bluetooth_le_adapter.requestPeaks();
+        bluetooth_le_adapter.setFreqStart("5000000");
+        bluetooth_le_adapter.requestFreqStart();
+        bluetooth_le_adapter.setFreqEnd("25000000");
+        bluetooth_le_adapter.requestFreqEnd();
+        bluetooth_le_adapter.setFreq1Inc("100000");
+        bluetooth_le_adapter.requestFreq1Inc();
+        bluetooth_le_adapter.setFreq2Offset("100000");
+        bluetooth_le_adapter.requestFreq2Offset();
+        bluetooth_le_adapter.setFreq2Inc("1000");
+        bluetooth_le_adapter.requestFreq2Inc();
+    }
+
+    private void sendB() {
+        bluetooth_le_adapter.setPeaks("3");
+        bluetooth_le_adapter.requestPeaks();
+        bluetooth_le_adapter.setFreqStart("2000000");
+        bluetooth_le_adapter.requestFreqStart();
+        bluetooth_le_adapter.setFreqEnd("20000000");
+        bluetooth_le_adapter.requestFreqEnd();
+        bluetooth_le_adapter.setFreq1Inc("5000");
+        bluetooth_le_adapter.requestFreq1Inc();
+        bluetooth_le_adapter.setFreq2Offset("200000");
+        bluetooth_le_adapter.requestFreq2Offset();
+        bluetooth_le_adapter.setFreq2Inc("100");
+        bluetooth_le_adapter.requestFreq2Inc();
+    }
+
+    private void sendFranklin() {
+        bluetooth_le_adapter.setPeaks("1");
+        bluetooth_le_adapter.requestPeaks();
+        bluetooth_le_adapter.setFreq1Inc("5000");
+        bluetooth_le_adapter.requestFreq1Inc();
+        bluetooth_le_adapter.setFreq2Offset("5000");
+        bluetooth_le_adapter.requestFreq2Offset();
+        bluetooth_le_adapter.setFreq2Inc("500");
+        bluetooth_le_adapter.requestFreq2Inc();
+    }
+
 }

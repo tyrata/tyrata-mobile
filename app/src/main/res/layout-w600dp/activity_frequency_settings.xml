@@ -438,4 +438,25 @@
             android:hint="FREQ2Offset" />
     </android.support.design.widget.TextInputLayout>
 
+    <Spinner
+        android:id="@+id/settings_selector"
+        android:layout_width="146dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="128dp"
+        android:layout_marginBottom="36dp"
+        android:background="#F5E01B"
+        app:layout_constraintBottom_toTopOf="@+id/textView20"
+        app:layout_constraintEnd_toStartOf="@+id/textView2" />
+
+    <ImageView
+        android:id="@+id/imageView10"
+        android:layout_width="14dp"
+        android:layout_height="13dp"
+        android:layout_marginStart="120dp"
+        app:layout_constraintBottom_toBottomOf="@+id/settings_selector"
+        app:layout_constraintStart_toStartOf="@+id/settings_selector"
+        app:layout_constraintTop_toTopOf="@+id/settings_selector"
+        app:layout_constraintVertical_bias="0.411"
+        app:srcCompat="@drawable/ic_down" />
+
 </android.support.constraint.ConstraintLayout>

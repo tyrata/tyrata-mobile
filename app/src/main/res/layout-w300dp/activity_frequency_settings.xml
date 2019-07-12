@@ -153,14 +153,13 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="20dp"
         android:text="SENSOR INFO"
         android:textColor="#F5E01B"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.524"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <TextView
@@ -440,5 +439,27 @@
             android:layout_height="wrap_content"
             android:hint="FREQ2Offset" />
     </android.support.design.widget.TextInputLayout>
+
+    <Spinner
+        android:id="@+id/settings_selector"
+        android:layout_width="146dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="#F5E01B"
+        app:layout_constraintEnd_toStartOf="@+id/textView2"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="80dp" />
+
+    <ImageView
+        android:id="@+id/imageView10"
+        android:layout_width="14dp"
+        android:layout_height="13dp"
+        android:layout_marginStart="120dp"
+        app:layout_constraintBottom_toBottomOf="@+id/settings_selector"
+        app:layout_constraintStart_toStartOf="@+id/settings_selector"
+        app:layout_constraintTop_toTopOf="@+id/settings_selector"
+        app:layout_constraintVertical_bias="0.411"
+        app:srcCompat="@drawable/ic_down" />
 
 </android.support.constraint.ConstraintLayout>
