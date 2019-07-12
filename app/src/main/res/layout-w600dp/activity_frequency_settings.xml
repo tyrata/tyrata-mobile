@@ -23,6 +23,18 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/textView19"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Pre-Set:"
+        android:textColor="#F5E01B"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/settings_selector"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <TextView
         android:id="@+id/device_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -442,11 +454,11 @@
         android:id="@+id/settings_selector"
         android:layout_width="146dp"
         android:layout_height="30dp"
-        android:layout_marginEnd="128dp"
-        android:layout_marginBottom="36dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="116dp"
         android:background="#F5E01B"
-        app:layout_constraintBottom_toTopOf="@+id/textView20"
-        app:layout_constraintEnd_toStartOf="@+id/textView2" />
+        app:layout_constraintEnd_toStartOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <ImageView
         android:id="@+id/imageView10"
