@@ -24,7 +24,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -808,14 +807,16 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
         public View getView(int i, View view, ViewGroup viewGroup) {
             SensorDataActivity.ViewHolder viewHolder;
             if (view == null) {
-                view = SensorDataActivity.this.getLayoutInflater().inflate(R.layout.item_sensor, null);
+                view = SensorDataActivity.this.getLayoutInflater().inflate(isAD7747 ? R.layout.item_sensor_ad7747 : R.layout.item_sensor_rf, null);
                 viewHolder = new SensorDataActivity.ViewHolder();
                 if(!isPhone){
                     viewHolder.temp = (TextView) view.findViewById(R.id.data_temperature);
                 }
                 viewHolder.time = (TextView) view.findViewById(R.id.data_time);
                 viewHolder.capacitance = (TextView) view.findViewById(R.id.data_capacitance);
-                viewHolder.frequency = (TextView) view.findViewById(R.id.data_frequency);
+                if(!isAD7747){
+                    viewHolder.frequency = (TextView) view.findViewById(R.id.data_frequency);
+                }
                 viewHolder.voltage = (TextView) view.findViewById(R.id.data_voltage);
 
                 view.setTag(viewHolder);

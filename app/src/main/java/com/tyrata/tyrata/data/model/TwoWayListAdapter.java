@@ -1,24 +1,15 @@
 package com.tyrata.tyrata.data.model;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Build;
-import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
-import android.support.v7.app.AlertDialog;
-import android.text.Editable;
-import android.text.InputFilter;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.tyrata.tyrata.R;
@@ -91,7 +82,7 @@ public class TwoWayListAdapter extends BaseAdapter {
 	public View getView(int i, View view, ViewGroup viewGroup) {
 		View vi = view;
 		if (vi == null)
-			vi = inflater.inflate(R.layout.item_sensor, null);
+			vi = inflater.inflate(R.layout.item_sensor_rf, null);
 
 		ImageView deviceIcon = vi.findViewById(R.id.ic_device);
 		ImageView gearIcon = vi.findViewById(R.id.ic_settings);

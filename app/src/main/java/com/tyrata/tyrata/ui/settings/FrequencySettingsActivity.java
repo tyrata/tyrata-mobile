@@ -32,6 +32,7 @@ public class FrequencySettingsActivity extends AppCompatActivity {
     private final static String A_OPT = "A";
     private final static String B_OPT = "B";
     private final static String FRANKLIN_OPT = "Franklin";
+    private final static String CUSTOM = "Custom";
 
     public static TextView peaks;
     public static TextView freq_start;
@@ -147,6 +148,7 @@ public class FrequencySettingsActivity extends AppCompatActivity {
     private void setSpinner() {
         Spinner spinner = findViewById(R.id.settings_selector);
         ArrayList<String> options = new ArrayList<>();
+        options.add(CUSTOM);
         options.add(A_OPT);
         options.add(B_OPT);
         options.add(FRANKLIN_OPT);
@@ -161,12 +163,14 @@ public class FrequencySettingsActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 switch (i) {
                     case 0:
-                        sendA();
                         break;
                     case 1:
-                        sendB();
+                        sendA();
                         break;
                     case 2:
+                        sendB();
+                        break;
+                    case 3:
                         sendFranklin();
                         break;
                     default:
