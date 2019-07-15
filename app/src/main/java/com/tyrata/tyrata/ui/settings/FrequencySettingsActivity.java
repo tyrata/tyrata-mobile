@@ -274,7 +274,7 @@ public class FrequencySettingsActivity extends AppCompatActivity {
         bluetooth_le_adapter.requestPeaks();
         bluetooth_le_adapter.setFreqStart("2000000");
         bluetooth_le_adapter.requestFreqStart();
-        bluetooth_le_adapter.setFreqEnd("20000000");
+        bluetooth_le_adapter.setFreqEnd("30000000");
         bluetooth_le_adapter.requestFreqEnd();
         bluetooth_le_adapter.setFreq1Inc("5000");
         bluetooth_le_adapter.requestFreq1Inc();
@@ -287,6 +287,10 @@ public class FrequencySettingsActivity extends AppCompatActivity {
     private void sendFranklin() {
         bluetooth_le_adapter.setPeaks("1");
         bluetooth_le_adapter.requestPeaks();
+        bluetooth_le_adapter.setFreqStart("9900000");
+        bluetooth_le_adapter.requestFreqStart();
+        bluetooth_le_adapter.setFreqEnd("10400000");
+        bluetooth_le_adapter.requestFreqEnd();
         bluetooth_le_adapter.setFreq1Inc("5000");
         bluetooth_le_adapter.requestFreq1Inc();
         bluetooth_le_adapter.setFreq2Offset("5000");
