@@ -477,14 +477,14 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
         private void scan(){
             bluetooth_le_adapter.scan();
         if(!isAD7747) {
-//                isAfterReading = true;
+                isAfterReading = true;
                 //ToasterService.makeToast(this, Constants.READING,20000);
-//            try {
-//                Thread.sleep(18500);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//            bluetooth_le_adapter.connect(device_address);
+            try {
+                Thread.sleep(18500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            bluetooth_le_adapter.connect(device_address);
         }
         }
 
