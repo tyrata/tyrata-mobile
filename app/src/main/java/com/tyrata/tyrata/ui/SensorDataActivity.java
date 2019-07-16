@@ -497,6 +497,7 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
+                    System.out.println("Didn't Connect");
                 }
                 readingToast.cancel();
                 readingToast = Toast.makeText(this, CONNECTED, Toast.LENGTH_LONG);
