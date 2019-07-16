@@ -361,7 +361,7 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
             });
         }
         private void resetData() {
-            readings_list_adapter.clear();
+            readings_list_adapter = new ListAdapter();
             checkSensor();
         }
     /**
