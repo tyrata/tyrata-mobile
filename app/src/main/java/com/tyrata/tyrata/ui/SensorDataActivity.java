@@ -487,11 +487,12 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
             }
         if(!isAD7747) {
                 isAfterReading = true;
-                Toast readingToast= Toast.makeText(this, Constants.READING, Toast.LENGTH_LONG);
+                Toast readingToast= Toast.makeText(this, Constants.READING, Toast.LENGTH_SHORT);
                 while(!bluetooth_le_adapter.isConnected()) {
                     readingToast.show();
                     try {
-                        Thread.sleep(2000);
+                        System.out.println("Trying to reconnect");
+                        Thread.sleep(500);
                         bluetooth_le_adapter.connect(device_address);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
