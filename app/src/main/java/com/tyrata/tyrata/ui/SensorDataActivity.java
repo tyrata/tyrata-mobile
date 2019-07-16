@@ -912,6 +912,7 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
         } else if(s.contains("ID")){
             handleIdData(s);
         } else if (s.contains("BATTERY") && s.contains("mV")) {
+            System.out.println(" *** This means we correctly understood a voltage command.");
             handleVoltageData(s);
         } else if (s.contains("INC")) {
             handleFreqInc(s);
@@ -1020,10 +1021,17 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
             addLastReadingToTable();
             isAfterReading = false;
         } else {
+            System.out.println("If this is printing, we correctly assumed not reading frequency.");
             switch(sensor_mode) {
                 case(Constants.AD7747_MODE):
-                    if(AD7747SettingsActivity.voltageVal != null)
-                     AD7747SettingsActivity.voltageVal.setText(voltageDoub + "");
+                    System.out.println("Got to AD7747");
+                    System.out.println("Here is the voltage value: " + voltageDoub);
+                    System.out.println("Here is the Label in Settings Value: " + AD7747SettingsActivity.voltageVal);
+                    if(AD7747SettingsActivity.voltageVal != null){
+                        System.out.println("Got To the point of setting the label. If it doesn't change, something is off with the Settings page");
+                        AD7747SettingsActivity.voltageVal.setText(voltageDoub + "");
+                    }
+
                     else {
                     System.out.println("Tried setting AD7747 Voltage Label while it was null...");
                     }
