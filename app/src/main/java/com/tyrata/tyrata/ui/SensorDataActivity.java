@@ -492,8 +492,9 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
                         e.printStackTrace();
                     }
                 }
+                readingToast.cancel();
                 readingToast = Toast.makeText(this, CONNECTED, Toast.LENGTH_LONG);
-                // AudioService.play();
+                AudioService.play();
                 readingToast.show();
         }
         }
