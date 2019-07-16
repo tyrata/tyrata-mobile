@@ -481,10 +481,11 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
         private void scan(){
             bluetooth_le_adapter.scan();
             try {
-                Thread.sleep(1000);
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            System.out.println("Just waited 2 seconds for sensor to disconnect");
         if(!isAD7747) {
                 isAfterReading = true;
                 Toast readingToast= Toast.makeText(this, Constants.READING, Toast.LENGTH_SHORT);
