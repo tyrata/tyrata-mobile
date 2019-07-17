@@ -480,31 +480,11 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
 
         private void scan(){
             bluetooth_le_adapter.scan();
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            System.out.println("Just waited 2 seconds for sensor to disconnect");
+            System.out.println("Going to set the read variable to true.");
         if(!isAD7747) {
                 isAfterReading = true;
-                Toast readingToast= Toast.makeText(this, Constants.READING, Toast.LENGTH_SHORT);
-                while(!bluetooth_le_adapter.isConnected()) {
-                    readingToast.show();
-                    try {
-                        System.out.println("Trying to reconnect");
-                        Thread.sleep(500);
-                        bluetooth_le_adapter.connect(device_address);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    System.out.println("Didn't Connect");
-                }
-                readingToast.cancel();
-                readingToast = Toast.makeText(this, CONNECTED, Toast.LENGTH_LONG);
-                AudioService.play();
-                readingToast.show();
-        }
+                System.out.println("Just set read variable to true;");
+            }
         }
 
         /**
@@ -1144,6 +1124,26 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
         findViewById(R.id.more_settings).setEnabled(false);
         findViewById(R.id.sensor_selector).setVisibility(View.INVISIBLE);
         findViewById(R.id.imageView10).setVisibility(View.INVISIBLE);
+        showMsg("Disconnected, now about to check if we need to reconnect.");
+        if(isAfterReading) {
+            showMsg("It was after reading, so now going to try to reconnect.");
+            Toast readingToast= Toast.makeText(this, Constants.READING, Toast.LENGTH_SHORT);
+            while(!bluetooth_le_adapter.isConnected()) {
+                readingToast.show();
+                try {
+                    System.out.println("Trying to reconnect");
+                    Thread.sleep(500);
+                    bluetooth_le_adapter.connect(device_address);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println("Didn't Connect");
+            }
+            readingToast.cancel();
+            readingToast = Toast.makeText(this, CONNECTED, Toast.LENGTH_LONG);
+            AudioService.play();
+            readingToast.show();
+        }
     }
 
     private void onServiceDiscovered() {
