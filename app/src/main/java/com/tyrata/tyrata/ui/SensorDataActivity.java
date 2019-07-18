@@ -1128,17 +1128,21 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
         if(isAfterReading) {
             showMsg("It was after reading, so now going to try to reconnect.");
             Toast readingToast= Toast.makeText(this, Constants.READING, Toast.LENGTH_SHORT);
+            Button b = findViewById(R.id.req_btn);
+            b.setText(Constants.READING);
             while(!bluetooth_le_adapter.isConnected()) {
                 readingToast.show();
                 try {
                     System.out.println("Trying to reconnect");
-                    Thread.sleep(500);
+                    Thread.sleep(1000);
                     bluetooth_le_adapter.connect(device_address);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
                 System.out.println("Didn't Connect");
             }
+            b.setText("Get Reading");
             readingToast.cancel();
             readingToast = Toast.makeText(this, CONNECTED, Toast.LENGTH_LONG);
             AudioService.play();
