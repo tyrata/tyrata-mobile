@@ -1135,7 +1135,9 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
                 try {
                     System.out.println("Trying to reconnect");
                     Thread.sleep(1000);
-                    bluetooth_le_adapter.connect(device_address);
+                    // connect to the Bluetooth adapter service
+                    Intent gattServiceIntent = new Intent(this, BleAdapterService.class);
+                    bindService(gattServiceIntent, service_connection, BIND_AUTO_CREATE);
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
