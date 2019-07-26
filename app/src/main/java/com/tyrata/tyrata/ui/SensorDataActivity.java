@@ -160,6 +160,7 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
     private boolean isAD7747;
     private boolean isPhone;
     public static boolean isAfterReading;
+    private boolean scanning;
 
     String coll;
 
@@ -1136,8 +1137,7 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
                     System.out.println("Trying to reconnect");
                     Thread.sleep(1000);
                     // connect to the Bluetooth adapter service
-                    Intent gattServiceIntent = new Intent(this, BleAdapterService.class);
-                    bindService(gattServiceIntent, service_connection, BIND_AUTO_CREATE);
+                    bluetooth_le_adapter.connect(device_address);
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
