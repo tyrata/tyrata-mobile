@@ -144,7 +144,6 @@
         android:layout_marginTop="232dp"
         android:layout_marginEnd="16dp"
         android:background="#F5E01B"
-        android:text="GET READING"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

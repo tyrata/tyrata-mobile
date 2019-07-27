@@ -56,6 +56,7 @@ import com.tyrata.tyrata.data.remote.BleAdapterService;
 import com.tyrata.tyrata.data.remote.BleScanner;
 import com.tyrata.tyrata.data.remote.ScanResultsConsumer;
 import com.tyrata.tyrata.ui.services.AudioService;
+import com.tyrata.tyrata.ui.services.ReadingLabeling;
 import com.tyrata.tyrata.ui.services.ToasterService;
 import com.tyrata.tyrata.ui.settings.AD7747SettingsActivity;
 import com.tyrata.tyrata.ui.settings.FrequencySettingsActivity;
@@ -237,6 +238,7 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
         super.onResume();
         ((TextView) this.findViewById(R.id.device_name)).setText(device_name);
         ((Button) SensorDataActivity.this.findViewById(R.id.req_btn)).setEnabled(bluetooth_le_adapter != null && bluetooth_le_adapter.isConnected());
+        ((Button) SensorDataActivity.this.findViewById(R.id.req_btn)).setText("Get Reading");
     }
     private void clearData() {
         // Show alert box that asks to confirm deletion
@@ -1132,17 +1134,21 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
             showMsg("Disconnected, now about to check if we need to reconnect.");
             if(isAfterReading) {
                 showMsg("It was after reading, so now going to try to reconnect.");
-                Toast readingToast= Toast.makeText(this, Constants.READING, Toast.LENGTH_SHORT);
+                // TODO: Add toaster. Problems with the Threading I believe. Not quite sure
+                //  how it work but I think what will need to happen is that
+                //  we start have a separate thread for the reconnection logic and the
+                //  UI changes but not really sure what should happen
                 Button b = findViewById(R.id.req_btn);
                 b.setText(Constants.READING);
                 while(!bluetooth_le_adapter.isConnected()) {
-                    readingToast.show();
+                    //readingToast.show();
                     try {
                         System.out.println("Trying to reconnect");
                         Thread.sleep(1000);
                         // connect to the Bluetooth adapter service
-                        Intent gattServiceIntent = new Intent(this, BleAdapterService.class);
-                        bindService(gattServiceIntent, service_connection, BIND_AUTO_CREATE);
+//                        Intent gattServiceIntent = new Intent(this, BleAdapterService.class);
+//                        bindService(gattServiceIntent, service_connection, BIND_AUTO_CREATE);
+                        bluetooth_le_adapter.connect(device_address);
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -1150,10 +1156,10 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
                     System.out.println("Didn't Connect");
                 }
                 b.setText("Get Reading");
-                readingToast.cancel();
-                readingToast = Toast.makeText(this, CONNECTED, Toast.LENGTH_LONG);
+//                readingToast.cancel();
+//                readingToast = Toast.makeText(this, CONNECTED, Toast.LENGTH_LONG);
                 AudioService.play();
-                readingToast.show();
+                //readingToast.show();
             }
         }
     }
