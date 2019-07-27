@@ -160,7 +160,7 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
     private boolean isAD7747;
     private boolean isPhone;
     public static boolean isAfterReading;
-    private boolean scanning;
+    private boolean isConnected;
 
     String coll;
 
@@ -1088,27 +1088,30 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
     }
 
     private void onConnected() {
-        bluetooth_le_adapter.discoverServices();
-        showMsg(CONNECTED);
-        ((Button) SensorDataActivity.this.findViewById(R.id.req_btn)).setEnabled(true);
-        ((TextView) findViewById(R.id.is_connected)).setText(CONNECTED);
-        View editName = findViewById(R.id.ic_settings);
-        editName.setEnabled(true);
-        findViewById(R.id.more_settings).setEnabled(true);
-        findViewById(R.id.sensor_selector).setVisibility(View.VISIBLE);
-        findViewById(R.id.imageView10).setVisibility(View.VISIBLE);
-        try {
-            Thread.sleep(700);
-            bluetooth_le_adapter.setSensor(isAD7747 ? AD7747_ID : RF_ID);
-            Thread.sleep(500);
-            bluetooth_le_adapter.requestSensor();
-            Thread.sleep(1000);
-            if(isAfterReading) {
-                bluetooth_le_adapter.requestFreq();
-                showMsg("Just sent HZ");
+        if(!isConnected)     {
+            isConnected = true;
+            bluetooth_le_adapter.discoverServices();
+            showMsg(CONNECTED);
+            ((Button) SensorDataActivity.this.findViewById(R.id.req_btn)).setEnabled(true);
+            ((TextView) findViewById(R.id.is_connected)).setText(CONNECTED);
+            View editName = findViewById(R.id.ic_settings);
+            editName.setEnabled(true);
+            findViewById(R.id.more_settings).setEnabled(true);
+            findViewById(R.id.sensor_selector).setVisibility(View.VISIBLE);
+            findViewById(R.id.imageView10).setVisibility(View.VISIBLE);
+            try {
+                Thread.sleep(700);
+                bluetooth_le_adapter.setSensor(isAD7747 ? AD7747_ID : RF_ID);
+                Thread.sleep(500);
+                bluetooth_le_adapter.requestSensor();
+                Thread.sleep(1000);
+                if(isAfterReading) {
+                    bluetooth_le_adapter.requestFreq();
+                    showMsg("Just sent HZ");
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
     }
 
@@ -1117,38 +1120,41 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
         showMsg("DISCONNECTED");
         if (back_requested) {
             SensorDataActivity.this.finish();
-        }
-        ((Button) SensorDataActivity.this.findViewById(R.id.req_btn)).setEnabled(false);
-        ((TextView) findViewById(R.id.is_connected)).setText(NOT_CONNECTED);
-        View editName = findViewById(R.id.ic_settings);
-        editName.setEnabled(false);
-        findViewById(R.id.more_settings).setEnabled(false);
-        findViewById(R.id.sensor_selector).setVisibility(View.INVISIBLE);
-        findViewById(R.id.imageView10).setVisibility(View.INVISIBLE);
-        showMsg("Disconnected, now about to check if we need to reconnect.");
-        if(isAfterReading) {
-            showMsg("It was after reading, so now going to try to reconnect.");
-            Toast readingToast= Toast.makeText(this, Constants.READING, Toast.LENGTH_SHORT);
-            Button b = findViewById(R.id.req_btn);
-            b.setText(Constants.READING);
-            while(!bluetooth_le_adapter.isConnected()) {
-                readingToast.show();
-                try {
-                    System.out.println("Trying to reconnect");
-                    Thread.sleep(1000);
-                    // connect to the Bluetooth adapter service
-                    bluetooth_le_adapter.connect(device_address);
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+        } else if (isConnected) {
+            isConnected = false;
+            ((Button) SensorDataActivity.this.findViewById(R.id.req_btn)).setEnabled(false);
+            ((TextView) findViewById(R.id.is_connected)).setText(NOT_CONNECTED);
+            View editName = findViewById(R.id.ic_settings);
+            editName.setEnabled(false);
+            findViewById(R.id.more_settings).setEnabled(false);
+            findViewById(R.id.sensor_selector).setVisibility(View.INVISIBLE);
+            findViewById(R.id.imageView10).setVisibility(View.INVISIBLE);
+            showMsg("Disconnected, now about to check if we need to reconnect.");
+            if(isAfterReading) {
+                showMsg("It was after reading, so now going to try to reconnect.");
+                Toast readingToast= Toast.makeText(this, Constants.READING, Toast.LENGTH_SHORT);
+                Button b = findViewById(R.id.req_btn);
+                b.setText(Constants.READING);
+                while(!bluetooth_le_adapter.isConnected()) {
+                    readingToast.show();
+                    try {
+                        System.out.println("Trying to reconnect");
+                        Thread.sleep(1000);
+                        // connect to the Bluetooth adapter service
+                        Intent gattServiceIntent = new Intent(this, BleAdapterService.class);
+                        bindService(gattServiceIntent, service_connection, BIND_AUTO_CREATE);
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    System.out.println("Didn't Connect");
                 }
-                System.out.println("Didn't Connect");
+                b.setText("Get Reading");
+                readingToast.cancel();
+                readingToast = Toast.makeText(this, CONNECTED, Toast.LENGTH_LONG);
+                AudioService.play();
+                readingToast.show();
             }
-            b.setText("Get Reading");
-            readingToast.cancel();
-            readingToast = Toast.makeText(this, CONNECTED, Toast.LENGTH_LONG);
-            AudioService.play();
-            readingToast.show();
         }
     }
 
