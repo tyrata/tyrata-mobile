@@ -30,7 +30,7 @@ public class FrequencySettingsActivity extends AppCompatActivity {
     private final static String BLETIMEOUT_TOAST_TEXT = "Setting BLETIMEOUT to 2 hours...";
     private final static String RESET_SENSOR_TOAST_TEXT = "Resetting sensor...";
     private final static String A_OPT = "A";
-    private final static String B_OPT = "B";
+    private final static String B_OPT = "Factory";
     private final static String FRANKLIN_OPT = "Franklin";
     private final static String CUSTOM = "Custom";
 
@@ -168,7 +168,7 @@ public class FrequencySettingsActivity extends AppCompatActivity {
                         sendA();
                         break;
                     case 2:
-                        sendB();
+                        sendFactory();
                         break;
                     case 3:
                         sendFranklin();
@@ -269,18 +269,18 @@ public class FrequencySettingsActivity extends AppCompatActivity {
         bluetooth_le_adapter.requestFreq2Inc();
     }
 
-    private void sendB() {
+    private void sendFactory() {
         bluetooth_le_adapter.setPeaks("3");
         bluetooth_le_adapter.requestPeaks();
-        bluetooth_le_adapter.setFreqStart("2000000");
+        bluetooth_le_adapter.setFreqStart("5000000");
         bluetooth_le_adapter.requestFreqStart();
-        bluetooth_le_adapter.setFreqEnd("30000000");
+        bluetooth_le_adapter.setFreqEnd("25000000");
         bluetooth_le_adapter.requestFreqEnd();
-        bluetooth_le_adapter.setFreq1Inc("5000");
+        bluetooth_le_adapter.setFreq1Inc("100000");
         bluetooth_le_adapter.requestFreq1Inc();
-        bluetooth_le_adapter.setFreq2Offset("200000");
+        bluetooth_le_adapter.setFreq2Offset("100000");
         bluetooth_le_adapter.requestFreq2Offset();
-        bluetooth_le_adapter.setFreq2Inc("100");
+        bluetooth_le_adapter.setFreq2Inc("1000");
         bluetooth_le_adapter.requestFreq2Inc();
     }
 

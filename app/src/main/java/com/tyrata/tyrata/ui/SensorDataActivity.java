@@ -126,6 +126,8 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
     private static final String RESET_BODY = "This will reset sensor to FACTORY settings.";
     private static final String RESET_TOAST = "Resetting Sensor";
 
+    private static final String SCAN_TOAST = "Sensor Measurement Started";
+
     private static final String CLEAR_TITLE =  "Are you sure?";
     private static final String CLEAR_BODY = "This will clear all of the data collected.";
     private static final String CLEAR_TITLE2 = "Actually??";
@@ -482,6 +484,8 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
     }
 
         private void scan(){
+            ToasterService.makeToast(SensorDataActivity.this,
+                    SCAN_TOAST, Toast.LENGTH_SHORT);
             bluetooth_le_adapter.scan();
             System.out.println("Going to set the read variable to true.");
         if(!isAD7747) {
