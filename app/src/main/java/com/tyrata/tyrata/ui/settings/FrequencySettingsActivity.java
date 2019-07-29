@@ -29,7 +29,7 @@ public class FrequencySettingsActivity extends AppCompatActivity {
     private final static String TAG = "Sensor Info";
     private final static String BLETIMEOUT_TOAST_TEXT = "Setting BLETIMEOUT to 2 hours...";
     private final static String RESET_SENSOR_TOAST_TEXT = "Resetting sensor...";
-    private final static String A_OPT = "A";
+    private final static String A_OPT = "FACTORY";
     private final static String B_OPT = "B";
     private final static String FRANKLIN_OPT = "Franklin";
     private final static String CUSTOM = "Custom";
@@ -255,7 +255,7 @@ public class FrequencySettingsActivity extends AppCompatActivity {
     }
     //
     private void sendA() {
-        bluetooth_le_adapter.setPeaks("1");
+        bluetooth_le_adapter.setPeaks("3");
         bluetooth_le_adapter.requestPeaks();
         bluetooth_le_adapter.setFreqStart("5000000");
         bluetooth_le_adapter.requestFreqStart();

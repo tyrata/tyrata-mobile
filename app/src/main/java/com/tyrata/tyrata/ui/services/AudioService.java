@@ -10,7 +10,7 @@ import android.os.Handler;
 import com.tyrata.tyrata.R;
 
 public class AudioService {
-    private static final int duration = 3; // seconds
+    private static final int duration = 2; // seconds
     private static final int sampleRate = 8000;
     private static final int numSamples = duration * sampleRate;
     private static final double sample[] = new double[numSamples];

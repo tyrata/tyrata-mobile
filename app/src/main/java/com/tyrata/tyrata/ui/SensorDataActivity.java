@@ -353,7 +353,6 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
                             // Get data only when requested (execution should never be here)
                             mReqTime = -1;
                     }
-
                     getDataFromSensor(mReqTime);
                 }
 
@@ -460,7 +459,6 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
         private void getDataFromSensor(long interval) {
             // Do not set any interval if REQUEST BUTTON is clicked
             if(interval == -1) return;
-
             mHandler.post(new Runnable() {
                 @Override
                 public void run() {
@@ -479,10 +477,11 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
     }
 
         private void scan(){
+            Toast.makeText(SensorDataActivity.this,
+                    Constants.READINGS, Toast.LENGTH_LONG).show();
             bluetooth_le_adapter.scan();
         if(!isAD7747) {
                 isAfterReading = true;
-                //ToasterService.makeToast(this, Constants.READING,20000);
             try {
                 Thread.sleep(80000);
                 AudioService.play();
