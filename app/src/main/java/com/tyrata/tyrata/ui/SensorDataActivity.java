@@ -55,6 +55,7 @@ import com.tyrata.tyrata.data.model.Graph;
 import com.tyrata.tyrata.data.remote.BleAdapterService;
 import com.tyrata.tyrata.data.remote.BleScanner;
 import com.tyrata.tyrata.data.remote.ScanResultsConsumer;
+import com.tyrata.tyrata.ui.services.AudioService;
 import com.tyrata.tyrata.ui.services.ToasterService;
 import com.tyrata.tyrata.ui.settings.AD7747SettingsActivity;
 import com.tyrata.tyrata.ui.settings.FrequencySettingsActivity;
@@ -480,6 +481,7 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
                 //ToasterService.makeToast(this, Constants.READING,20000);
             try {
                 Thread.sleep(18500);
+                AudioService.play();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
