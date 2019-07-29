@@ -362,7 +362,9 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
             });
         }
         private void resetData() {
-            readings_list_adapter.clear();
+            ListView listView = (ListView) this.findViewById(R.id.other_info);
+            readings_list_adapter = new SensorDataActivity.ListAdapter();
+            listView.setAdapter(readings_list_adapter);
             checkSensor();
         }
     /**
@@ -388,6 +390,7 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
                     case 0:
                         isAD7747 = false;
                         coll = RF_DB;
+                        initVariables();
                         setLabels();
                         if(bluetooth_le_adapter!=null) {
                             bluetooth_le_adapter.setSensor(RF_ID);
@@ -398,6 +401,7 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
                     case 1:
                         isAD7747 = true;
                         coll = AD7747_DB;
+                        initVariables();
                         setLabels();
                         if(bluetooth_le_adapter!=null){
                         bluetooth_le_adapter.setSensor(AD7747_ID);
@@ -480,7 +484,7 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
                 isAfterReading = true;
                 //ToasterService.makeToast(this, Constants.READING,20000);
             try {
-                Thread.sleep(18500);
+                Thread.sleep(80000);
                 AudioService.play();
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -1363,8 +1367,7 @@ public class SensorDataActivity extends Activity implements ScanResultsConsumer 
         listView.setAdapter(readings_list_adapter);
     }
     private void initVariables() {
-            sensor_mode = isAD7747 ? Constants.AD7747_MODE : Constants.RF_MODE;
-        isAD7747 = sensor_mode.equalsIgnoreCase(Constants.AD7747_MODE);
+        sensor_mode = isAD7747 ? Constants.AD7747_MODE : Constants.RF_MODE;
         coll = isAD7747 ? AD7747_DB : RF_DB;
         isReadings = true;
         ble_scanner = new BleScanner(this.getApplicationContext());
